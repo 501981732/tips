@@ -97,8 +97,11 @@ const intersection = (a,b) => { const s = new Set(b); return a.filter(v => s.has
 // 18 返回数组中最后一个
 const last = arr => arr[arr.length-1]
 
-// 
+// 19 nthElement 返回数组的第几个元素
+const nthElement = (arr, n) => (n > 0 ? arr.slice(n, n+1) : arr.slice(n))[0]
 
+// 20 从对象中选取对应于给定键的键值对  pick({ 'a': 1, 'b': '2', 'c': 3 }, ['a', 'c']) -> { 'a': 1, 'c': 3 }
+const pick = (obj, arr) => arr.reduce((acc,curr) => (acc in obj && (acc[curr] = obj[curr]),acc),{})
 
 
 
