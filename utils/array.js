@@ -169,7 +169,10 @@ const zip = (...arrays) => {
 // 25 使用函数将数组的值映射到对象, 其中键值对由原始值作为键和映射值组成。
 const mapObject = (arr, fn) =>
 	(a => (a = [arr, arr.map(fn)], a[0].reduce((acc, val, ind) => (acc[val] = a[1][ind], acc), {})))();
+	
 /*
 const squareIt = arr => mapObject(arr, a => a*a)
 squareIt([1,2,3]) // { 1: 1, 2: 4, 3: 9 }
+
+
 */
