@@ -184,18 +184,19 @@ Etag 的优先级高于 Last-Modified
 我们写一个简单的 index.html，然后引用 3 种资源，分别是 index.js, index.css 和 mashroom.jpg。
 
 我们给这三种资源都设置上 Cache-control: max-age=86400，表示强制缓存 24 小时。以下截图全部使用 Chrome 的隐身模式。
+
 第一次毫无意外的全部走网络请求，因为什么缓存都还没有。
 
-<img src="https://raw.githubusercontent.com/501981732/tips/master/images/cache-1.jpg" alt="">
+<img src="https://raw.githubusercontent.com/501981732/tips/master/images/cache-1.png" alt="">
 
 第二次：刷新三个请求都来自 memory cache。因为我们没有关闭 TAB，所以浏览器把缓存的应用加到了 memory cache。(耗时 0ms，也就是 1ms 以内)
 
-<img src="https://raw.githubusercontent.com/501981732/tips/master/images/cache-2.jpg" alt="">
+<img src="https://raw.githubusercontent.com/501981732/tips/master/images/cache-2.png" alt="">
 
 第三次：关闭 TAB，打开新 TAB 并再次请求因为关闭了 TAB，memory cache 也随之清空。但是 disk cache 是持久的，于是所有资源来自 disk cache。(大约耗时 3ms，因为文件有点小)
 
 而且对比 2 和 3，很明显看到 memory cache 还是比 disk cache 快得多的。
-<img src="https://raw.githubusercontent.com/501981732/tips/master/images/cache-3.jpg" alt="">
+<img src="https://raw.githubusercontent.com/501981732/tips/master/images/cache-3.png" alt="">
 
 ### no-cache & no-store
 现在我们：
