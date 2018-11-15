@@ -92,7 +92,7 @@ memory cache 是浏览器为了加快读取缓存速度而进行的自身的优�
 
 强制缓存直接减少请求数，是提升最大的缓存策略。 它的优化覆盖了文章开头提到过的请求数据的全部三个步骤。如果考虑使用缓存来优化网页性能的话，强制缓存应该是首先被考虑的。
 
-####1.Expires
+#### Expires
 
 这是 HTTP 1.0 的字段，表示缓存到期时间，是一个绝对的时间 (当前时间+缓存时间)，如
 可以造成强制缓存的字段是 Cache-control 和 Expires。
@@ -105,7 +105,7 @@ Expires: Thu, 10 Nov 2017 08:45:11 GMT
     1. 由于是绝对时间，用户可能会将客户端本地的时间进行修改，而导致浏览器判断缓存失效，重新请求该资源。此外，即使不考虑自信修改，时差或者误差等因素也可能造成客户端与服务端的时间不一致，致使缓存失效。
     2.  写法太复杂了。表示时间的字符串多个空格，少个字母，都会导致非法属性从而设置失效。
 
-####2. Cache-control
+#### Cache-control
 
 已知Expires的缺点之后，在HTTP/1.1中，增加了一个字段Cache-control，该字段表示资源缓存的最大有效时间，在该时间内，客户端不需要向服务器发送请求
 
@@ -122,7 +122,7 @@ Cache-control: max-age=2592000
 - private：所有的内容只有客户端才可以缓存，代理服务器不能缓存。默认值。
 
 这些值可以混合使用，例如 Cache-control:public, max-age=2592000。在混合使用时，它们的优先级如下图：
-<img src="" alt="">
+<img src="https://raw.githubusercontent.com/501981732/tips/master/images/1.jpeg" alt="">
 这里有一个疑问：max-age=0 和 no-cache 等价吗？从规范的字面意思来说，max-age 到期是 应该(SHOULD) 重新验证，而 no-cache 是 必须(MUST) 重新验证。但实际情况以浏览器实现为准，大部分情况他们俩的行为还是一致的。（如果是 max-age=0, must-revalidate 就和 no-cache 等价了）
 
 顺带一提，在 HTTP/1.1 之前，如果想使用 no-cache，通常是使用 Pragma 字段，如 Pragma: no-cache(这也是 Pragma 字段唯一的取值)。但是这个字段只是浏览器约定俗成的实现，并没有确切规范，因此缺乏可靠性。它应该只作为一个兼容字段出现，在当前的网络环境下其实用处已经很小。
@@ -185,9 +185,13 @@ Etag 的优先级高于 Last-Modified
 
 我们给这三种资源都设置上 Cache-control: max-age=86400，表示强制缓存 24 小时。以下截图全部使用 Chrome 的隐身模式。
 第一次毫无意外的全部走网络请求，因为什么缓存都还没有。
+
 <img src="https://raw.githubusercontent.com/501981732/tips/master/images/cache-1.jpg" alt="">
+
 第二次：刷新三个请求都来自 memory cache。因为我们没有关闭 TAB，所以浏览器把缓存的应用加到了 memory cache。(耗时 0ms，也就是 1ms 以内)
+
 <img src="https://raw.githubusercontent.com/501981732/tips/master/images/cache-2.jpg" alt="">
+
 第三次：关闭 TAB，打开新 TAB 并再次请求因为关闭了 TAB，memory cache 也随之清空。但是 disk cache 是持久的，于是所有资源来自 disk cache。(大约耗时 3ms，因为文件有点小)
 
 而且对比 2 和 3，很明显看到 memory cache 还是比 disk cache 快得多的。
