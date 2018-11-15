@@ -23,4 +23,6 @@ const validateNumber = n => !isNaN(parseFloat(n)) && isFinite(n) && Number(n) ==
  * @param    {[type]}   n [description]
  * @return   {[type]}     [description]
  */
-const validataPhone = (m,s) => /^[1][3,4,5,7,8,9][0-9]{9}$/.test(n);
+const validataPhone = (n) => /^[1][3,4,5,7,8,9][0-9]{9}$/.test(n);
+
+const validataFixedLineTelephone = (n) => /\d{2,5}-\d{7,8}/.test(n);
