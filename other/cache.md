@@ -114,7 +114,7 @@ Expires: Thu, 10 Nov 2017 08:45:11 GMT
 Cache-control: max-age=2592000
 ```
 
-- max-age：即最大有效时间，在上面的例子中我们可以看到
+- max-age：即最大有效时间
 - must-revalidate：如果超过了 max-age的时间，浏览器必须向服务器发送请求，验证资源是否还有效。
 - no-cache：虽然字面意思是“不要缓存”，但实际上还是要求客户端缓存内容的，只是是否使用这个内容由后续的对比来决定。
 - no-store: 真正意义上的“不要缓存”。所有内容都不走缓存，包括强制和对比。
@@ -163,7 +163,7 @@ Etag 存储的是文件的特殊标识(一般都是 hash 生成的)，服务器�
 
 Etag 的优先级高于 Last-Modified
 
-
+<img src="https://raw.githubusercontent.com/501981732/tips/master/images/cache-11.jpg" alt="">
 ## 总结
 
 当浏览器请求资源时
@@ -248,9 +248,9 @@ Etag 的优先级高于 Last-Modified
 ```
 // serviceWorker.js
 var CACHE_NAME = 'service-worker-test-precache';
-var CACHE_LIST = ['/static/index.js', 
-    '/static/index.css', 
-    '/static/mashroom.jpg']
+var CACHE_LIST = ['./index.js', 
+    './index.css', 
+    './hx-loading-icon.gif']
 
 self.addEventListener('install', e => {
   // 当确定要访问某些资源时，提前请求并添加到缓存中。
@@ -307,8 +307,17 @@ self.addEventListener('fetch', e => {
 
 
 > 可以访问 chrome://inspect/#service-workers和 chrome://serviceworker-internals/ 来检查 Service Worker 是否已经启用。
+
+> 关闭chrome://serviceworker-internals/
+
+
 > [Service Worker](https://www.jianshu.com/p/0e2dee4c77bc)
->
+
+> [饿了么 PWA升级实践](https://zhuanlan.zhihu.com/p/27853228)
+
+>  [轻松把你的项目升级到PWA](https://zhuanlan.zhihu.com/p/29570875)
+
+
 当我们首次访问时，会看到常规请求之外，浏览器(确切地说是 Service Worker)额外发出了 几个请求。这来自预缓存的代码。
 <img src="https://raw.githubusercontent.com/501981732/tips/master/images/cache-8.png">
 
@@ -392,24 +401,6 @@ Cache-Control: no-cache
 
 
 
-参考: A Tale of Four Caches ( but这个文章的Service Worker 的优先级排在 memory cache 和 disk cache 之间)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 ## 资料预加载 preload prefetch
@@ -417,6 +408,7 @@ Cache-Control: no-cache
 preload通常在页面中，我们需要加载一些脚本和样式，而使用 preload 可以对当前页面所需的脚本、样式等资源进行预加载，而无需等到解析到 script 和 link 标签时才进行加载。这一机制使得资源可以更早的得到加载并可用，且更不易阻塞页面的初步渲染，进而提升性能。
 
 网站使用了一种特殊字体，我们在css里面定义了字体的url。那么直到浏览器开始解析CSS了才会识别出来需要加载这个资源。如何提前让浏览器下载好这个资源呢？那么执行CSS的时候就可以直接用了
+
 ```
 <head>
     <meta charset="utf-8">
@@ -443,14 +435,11 @@ preload通常在页面中，我们需要加载一些脚本和样式，而使用 
 prefetch与 preload 一样，都是对资源进行预加载，但是 prefetch 加载的资源一般不是用于当前页面的，即未来很可能用到的这样一些资源，简单点说就是其他页面会用到的资源。当然，prefetch 不会像 preload 一样，在页面渲染的时候加载资源，而是利用浏览器空闲时间来下载。当进入下一页面，就可直接从 disk cache 里面取，既不影响当前页面的渲染，又提高了其他页面加载渲染的速度。
 
 
-
-
+- dns-prefetch
 
 - prefetch跟preload不同在于，用户从A页面进入B页面，preload的会失效，而prefetch的内容可以在B页面使用。
 
-
-> [webopack4已支持]（https://webpack.docschina.org/guides/code-splitting/#prefetching-preloading-modules）
-
+> [webopack4已支持](https://webpack.docschina.org/guides/code-splitting/#prefetching-preloading-modules)
 
 > ```
 > import(/* webpackPreload: true */ 'ChartingLibrary');
@@ -458,6 +447,8 @@ prefetch与 preload 一样，都是对资源进行预加载，但是 prefetch �
 > ```
 
 [webpack插件resource-hints-webpack-plugin](https://github.com/jantimon/resource-hints-webpack-plugin)
+
+
 
 
 
