@@ -226,7 +226,7 @@ window.Promise.prototype = {
 function PromiseAll(promiseArr) {
     if (!Array.isArray(promiseArrs)) return new Error('error')
 
-    return new Promise(reslove, reject) {
+    return new Promise((reslove, reject) => {
         let count = 0;
         let resultArr = []
         let len = promiseArr.length;
@@ -242,8 +242,9 @@ function PromiseAll(promiseArr) {
                 reject(err)
             })
         }
-    }
+
 }
+
 
 // Promise.all错误处理
 // 
@@ -252,15 +253,8 @@ function PromiseAll(promiseArr) {
 
 
 // race并行请求，返回最快的那个
-const promise_race = promiselist => new Promise((resolve, reject) => {
+var promise_race = promiselist => new Promise((resolve, reject) => {
     promiselist.forEach(promise => promise.then(resolve, reject))
-})
-
-
-
-
-new Promise(function(reslove,reject)=>{
-
 })
 
 

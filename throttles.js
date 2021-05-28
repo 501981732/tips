@@ -19,6 +19,15 @@ function throttles(limit = 1) {
 const API = 'https://pokeapi.co/api/v2/pokemon';
 const getPokemon = id => fetch(`${API}/${id}`).then(r => r.json());
 
+demolist = [1000,2000,1500,2500,3000,1000]
+var demo = id => {
+    return new Promise((reslove)=>{
+        setTimeout(()=>{
+            reslove(id)
+        },id)
+    })
+}
+
 // Limit concurrency to 3
 const [toAdd, isDone] = throttles(2);
 const pokemon = ['bulbasaur', 'ivysaur', 'venusaur', 'charmander', 'charmeleon', 'charizard'];

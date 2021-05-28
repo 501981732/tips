@@ -7,8 +7,8 @@
  */
 
 // 方法二：双指针
- // 时间复杂度：O(m+n)O(m+n)。
- // 空间复杂度：O(m+n)O(m+n)。
+ // 时间复杂度：O(m+n)。
+ // 空间复杂度：O(m+n)。
 
 var merge = function(nums1, m, nums2, n) { 
 

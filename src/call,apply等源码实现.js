@@ -52,7 +52,7 @@ if (!Function.prototype.bind) {
         context.__fn__ = this
 
         context.__result = function F() {
-            cosnt args = [...arguments,...restArg]
+            const args = [...arguments,...restArg]
             if (this instanceof F) {
                 return new context.__fn__(...args)
             } else {
@@ -89,21 +89,19 @@ export default counter;
 // （1）创建一个新对象；
 // （2）将构造函数的作用域赋给新对象（因此this就指向了这个对象）；
 // （3）执行构造函数中的代码（为这个新对象添加属性）；
-// （4）返回新对象。
+// （4）如果该函数没有返回对象，则返回this。
 
-function myNew(arguments) {
+function myNew(fn, ...args) {
     var o = {};
-    // o.__proto__ = constructor.prototype;
-    let Cons = [].shift.call(arguments)
-    o.__proto__ = Cons.prototype;
-    Cons.apply(o, arguments);
+    o.__proto__ = fn.prototype;
+    Cons.apply(o, args);
     return o;
 }
-// function _new(fn, ...arg) {
-//     const obj = Object.create(fn.prototype);
-//     const result = fn.apply(obj, arg);
-//     return result instanceof Object ? result : obj;
-// }
+function _new(fn, ...args) {
+    const obj = Object.create(fn.prototype);
+    const result = fn.apply(obj, args);
+    return result instanceof Object ? result : obj;
+}
 
 var person1 = myNew(Person, 'MeloGuo', 21)
 
@@ -149,17 +147,6 @@ function jsonp(url, callbackName, success) {
 // }
 
 // 防抖 指触发事件后，在 n 秒内函数只能执行一次，如果触发事件后在 n 秒内又触发了事件，则会重新计算函数延执行时间
-const debounce = function(fn, time) {
-    let timer = null;
-    return function() {
-        let context = this
-        clearTimeout(timer);
-        timer = setTimeout(function() {
-            fn.call(context, arguments)
-        }, time)
-    }
-}
-
 
 function debounce(fn,time) {
     let timer = null
@@ -180,8 +167,8 @@ function debounce(fn,time) {
 //         canRun = false
 //         let context = this
 //         setTimeout(function() {
-//             canRun = true;
 //             fn.call(context, arguments)
+//             canRun = true;
 //         }, time)
 //     }
 // }
@@ -229,7 +216,7 @@ const debounce2 = (func, wait, immediate) => {
 // 多维数组降维
 // 正则 1.
 ary = JSON.stringify(arr).replace(/(\[|\])/g, '').split(',')
-
+ary = arr.toString().split(',').map(Number)
 
 
 // es6 arr.flat(Infinity)
@@ -269,37 +256,6 @@ function myInstance(l, r) {
     }
 }
 
-// 深拷贝
-
-function deepClone(dest) {
-    if (typeof dest === 'object') {
-        let obj = dest.constructor()
-        for (let i in dest) {
-            if (dest.hasOwnProperty(i)) {
-                 dest[i] = typeof dest[i] === 'object' ? deepClone(deepClone[i]) : dest[i]
-            }
-        }
-    } else {
-        return dest
-    }
-}
-
-// function deepCopy2(obj) {
-//     function isObject(k) {
-//         return (typeof k === 'object' || typeof k === 'function') && k !== null
-//     }
-//     if (!isObject(obj)) {
-//         throw new Error('非对象')
-//     }
-//     let isArray = Array.isArray(obj)
-
-//     let target = isArray ? [...obj] : { ...obj }
-
-//     Reflect.ownKeys(obj).forEach(key => {
-//         target[key] = isObject(target[key]) ? deepCopy2(target[key]) : target[key]
-//     })
-//     return target;
-// }
 
 // typeof检测数据类型 可以是基本类型也可以是复杂类型
 // instanceof 是检测两者之间的关联性 左边是否是右边的实例 ，不能是基本类型
@@ -376,7 +332,7 @@ function moveZero(arr) {
 // 利用空间换时间：
 const twoNum = (arr, target) => {
     let map = {};
-    for (let i = 0, len = arr.length, i < len; i++) {
+    for (let i = 0, len = arr.length; i < len; i++) {
         let diff = target - arr[i]
         if (map[diff]) {
             return [arr[i], map[diff]]
@@ -449,7 +405,9 @@ function convert(list, link = 'parentId') {
     // 去重 ，建hash表 后面的写法相当于返回total
     // {"1":{"id":1},"2":{"id":2,"pId":1},"3":{"id":3,"pId":2},"4":{"id":4},"5":{"id":5,"pId":4}}
     let map = list.reduce((total, curr) => (total[curr.id] = curr, total), {});
-
+    // list.forEach(item => {
+    //     map[item.id] = item
+    // })
     for (let item of Object.values(map)) {
         if (!item[link]) {
             res.push(item)
@@ -657,7 +615,7 @@ function compose(...fns) {
 //     return fns.reduce((f, g) => (...args) => f(g(...args)))
 // }
 
-}
+// }
 
 // 函数提升优先级高于变量提升，变量提升只提升变量，赋值不提升
 console.log(a);
@@ -851,45 +809,6 @@ console.log(x)
 console.log(y)
 
 
-// 用于创建已经设置好了一个或多个的函数。和函数绑定一样，使用闭包返回一个函数。
-// 动态创建步骤：调用另一个函数，并为它传入要柯里化的函数和必要的参数。
-
-// function curry(fn) {
-//     const args = Array.prototype.slice.call(arguments, 1)
-//     return function() {
-//         const innerArgs = Array.prototype.slice.call(arguments)
-//         const finalArgs = args.concat(innerArgs)
-//         console.log(innerArgs)
-//         fn.apply(null, finalArgs)
-//     }
-// }
-
-// function curry(fn, ...args1) {
-//     return (...args2) => {
-//         return (arg => {
-//             arg.length === fn.length ? fn(...arg) : curry(fn, ...arg)
-//         })([...args1, ...args2])
-//     }
-// }
-// // const curry = (fn, ...args1) => (...args2) => (
-// //     arg => arg.length === fn.length ? fn(...arg) : curry(fn, ...arg)
-// //    )([...args1, ...args2])
-// function curry(fn, ...args1) {
-//     let length = fn.length
-//     let args = args1
-//     return function curring(...args2) {
-//         args = args.concat(args2)
-//         return (args.length >= length) ? fn.apply(this, args) : curring
-//     }
-// }
-
-// 84 通用的科里化函数
-function add(a, b, c) {
-    return a + b + c
-}
-const curryAdd = curry(add)
-console.log(curryAdd(1, 2)(3))
-
 // 实现一个add方法，使计算结果能够满足如下预期：
 // add(1)(2)(3) = 6;
 // add(1, 2, 3)(4) = 10;
@@ -908,19 +827,32 @@ function add() {
     }
     return __adder
 }
+
+
+// 用于创建已经设置好了一个或多个的函数。和函数绑定一样，使用闭包返回一个函数。
+// 动态创建步骤：调用另一个函数，并为它传入要柯里化的函数和必要的参数。
+
+// 84 通用的科里化函数
+function add(a, b, c) {
+    return a + b + c
+}
+const curryAdd = curry(add)
+console.log(curryAdd(1, 2)(3))
+
 // 形参定长
 
-function curry(fn,...args1) {
-    let length = fn.length
-    let args = args1
-    return function curring (...args2) {
-        args = args.concat(args2)
-        if (args.length >=length) {
-            return fn.apply(this,args)
-        } else {
-            return curring
-            // return curry.call(fn,arg2)
+function curry(fn) {
+    // 闭包内设置实参总长及实参列表
+    const len = fn.length
+    let arglist = []
+    return function _c(...args) {
+        let newArgs = [...arglist,...args]
+        if (newArgs >= len) {
+            return fn.apply(null,newArgs)
         }
+        // 闭包记录参数列表
+        arglist = newArgs
+        return _c
     }
 }
 
@@ -944,7 +876,6 @@ function curry (fn) {
     }
 }
 
-let addCurry = currying(add)
-let total = addCurry(1)(2)(3)(4)
-
+let addCurry = curry(add)
+let total = addCurry(1)(2)(3)(4);
 

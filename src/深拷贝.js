@@ -33,17 +33,36 @@ export function deepCopy (obj, cache = []) {
 // 1、循环引用
 // 2、Symbol 类型拷贝
 
-function deepClone(val,map = new WeakMap()){
-    if(val === null || typeof val !=='object') return val;
+function deepClone(obj,map = new WeakMap()){
+    if(obj === null || typeof obj !=='object') return obj;
     //循环引用
-    if(map.has(val)) return map.get(val);
-    let clone = Array.isArray(val) ? [] : {};
-    map.set(val,clone);
+    if(map.has(obj)) return map.get(obj);
+
+    let clone = Array.isArray(obj) ? [] : {};
+
+    map.set(obj,clone);
     // 获取对象中所有的属性名（包含Symbol值）
-    let keys = Reflect.ownKeys(val);//（可换为：Object.keys(val).concat(Object.ownPropertySymbols(val))）
-    let len = keys.length;
-    while(len--){
-        clone[keys[len]] = deepClone(val[keys[len]],map);
-    }
+    // let keys = Reflect.ownKeys(obj);//（可换为：Object.keys(obj).concat(Object.ownPropertySymbols(obj))）
+    // let len = keys.length;
+    // while(len--){
+    //     clone[keys[len]] = deepClone(obj[keys[len]],map);
+    // }
+    Reflect.ownKeys(obj).forEach(item => {
+      clone[item] = deepClone(obj[item],map)
+    })
     return clone;
+}
+
+// 深拷贝
+
+function deepCopy2(obj) {
+
+    if(typeof val !=='object' || val === null ) return val;
+
+    let target = Array.isArray(obj) ? [...obj] : { ...obj }
+
+    Reflect.ownKeys(obj).forEach(key => {
+        target[key] = isObject(target[key]) ? deepCopy2(target[key]) : target[key]
+    })
+    return target;
 }

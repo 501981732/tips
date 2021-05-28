@@ -15,17 +15,20 @@
 //  方法一 递归 方法二迭代
 function inorderTraversal(root) {
     let res = [];
-    let stack = [];
-    while(root || stack.length) {
-        while (root) {
-            stack.push(root);
-            root = root.left
-        }
-        root = stack.pop();
-        res.push(root.val);
-        root = root.right
+    let stack = []
+    while (root) {
+        stack.push(root)
+        root = root.left
     }
-    return res;
+    while(stack || stack.left) {
+        let node = stack.pop()
+        res.push(node.val)
+        node = node.right
+        while (node) {
+            stack.push(node)
+            node = node.left
+        }
+    }
 }
 
 function inorderTraversal(root) {
@@ -41,3 +44,5 @@ function inorderTraversal(root) {
     inorder(root)
     return res
 }
+
+

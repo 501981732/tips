@@ -1,4 +1,4 @@
-// 跟左右
+// 根-左-右
 function preorderTraveral(root) {
     let res = []
     function preorder(root) {
