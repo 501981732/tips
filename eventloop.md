@@ -8,7 +8,7 @@
 ### 任务队列 task queue
 
 #### microtask 微任务包括 process.nextTick ，promise ，MutationObserver
-#### macrotask 宏任务包括 script ， setTimeout ，setInterval ，setImmediate ，I/O ，UI rendering 
+#### macrotask 宏任务包括 script ， setTimeout ，setInterval ，setImmediate ，I/O ，UI rendering
 
 ### event loop执行顺序
 
@@ -17,8 +17,6 @@
 - 执行所有微任务
 - 执行完所有微观任务，如有必要执行渲染页面(性能优化点，所有页面渲染前最佳时机是在微任务处理，如果是在宏任务处理的话，还要等又一轮的eventloop)
 - 开始下一轮Event Loop ,执行红任务中的异步代码，也就是 setTimeout中的回调
-
-
 
 
 ## node中 event loop
@@ -39,9 +37,9 @@ timers 阶段会执行 setTimeout 和 setInterval 回调，并且是由 poll 阶
 
 
 - idle,prepare
-  
+
 - poll 
-  
+
 系统会做两件事
 1. 回到 timer 阶段执行回调
 2. 执行 I/O 回调
@@ -50,20 +48,26 @@ timers 阶段会执行 setTimeout 和 setInterval 回调，并且是由 poll 阶
 
     1. 如果有 setImmediate 回调需要执行，poll 阶段会停止并且进入到 check 阶段执行回调
     2. 如果没有 setImmediate 回调需要执行，会等待回调被加入到队列中并立即执行回调，这里同样会有个超时时间设置防止一直等待下去
-    3. 
 当然设定了 timer 的话且 poll 队列为空，则会判断是否有 timer 超时，如果有的话会回到 timer 阶段执行回调
 
 - check
-  
+
 check 阶段执行 setImmediate
 
 - close callbacks
-  
+
   close callbacks 阶段执行 close 事件
-
-
 
 
 ### process.nextTick
 
 这个函数其实是独立于 Event Loop 之外的，它有一个自己的队列，当每个阶段完成后，如果存在 nextTick 队列，就会清空队列中的所有回调函数，并且优先于其他 microtask 执行。
+
+### 微任务和宏任务在Node的执行顺序
+
+Node 10以前：
+
+执行完一个阶段的所有任务
+执行完nextTick队列里面的内容
+然后执行完微任务队列的内容
+Node 11以后： 和浏览器的行为统一了，都是每执行一个宏任务就执行完微任务队列。
