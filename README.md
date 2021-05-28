@@ -7,8 +7,6 @@
 
 3. [image转base64插件](https://501981732.github.io/FE/image转base64插件)
 
-<<<<<<< HEAD
-=======
 4. [解析v-model](https://501981732.github.io/FE/vue/v-model指令)
 
 5. [vue插件开发](https://501981732.github.io/FE/vue/vue插件)
@@ -61,4 +59,3 @@
 
 
 ### 博客在这里 [地址](https://501981732.github.io/)
->>>>>>> a2ce649415668e580f9afbd6bf68d3bac7c289b0
