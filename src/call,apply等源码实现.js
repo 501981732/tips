@@ -817,15 +817,15 @@ console.log(y)
 function add() {
     let _args = [...arguments];
     // 在内部声明一个函数，利用闭包的特性保存_args并收集所有的参数值
-    function __adder() {
+    function fn() {
         _args.push(...arguments);
-        return __adder
+        return fn
     }
     // 利用toString隐式转换的特性，当最后执行时隐式转换，并计算最终的值返回
-    __adder.toString = function() {
+    fn.toString = function() {
         return _args.reduce((a,b) => a + b,0)
     }
-    return __adder
+    return fn
 }
 
 
@@ -841,17 +841,29 @@ console.log(curryAdd(1, 2)(3))
 
 // 形参定长
 
+// function curry(fn) {
+//     // 闭包内设置实参总长及实参列表
+//     const len = fn.length
+//     let arglist = []
+//     return function _c(...args) {
+//         let newArgs = [...arglist,...args]
+//         if (newArgs.length >= len) {
+//             return fn.apply(null,newArgs)
+//         }
+//         // 闭包记录参数列表
+//         arglist = newArgs
+//         return _c
+//     }
+// }
+
 function curry(fn) {
-    // 闭包内设置实参总长及实参列表
     const len = fn.length
     let arglist = []
-    return function _c(...args) {
-        let newArgs = [...arglist,...args]
-        if (newArgs >= len) {
-            return fn.apply(null,newArgs)
+    return function _c(){
+        arglist = [...arglist, ...arguments]
+        if (arglist.length >= len) {
+            return fn.apply(null, arglist)
         }
-        // 闭包记录参数列表
-        arglist = newArgs
         return _c
     }
 }

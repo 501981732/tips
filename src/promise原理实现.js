@@ -226,12 +226,12 @@ window.Promise.prototype = {
 function PromiseAll(promiseArr) {
     if (!Array.isArray(promiseArrs)) return new Error('error')
 
-    return new Promise((reslove, reject) => {
+    return new Promise((resolve, reject) => {
         let count = 0;
         let resultArr = []
         let len = promiseArr.length;
         for (let i = 0; i < len; i++) {
-            Promise.reslove(promiseArr[i]).then(res => {
+            Promise.resolve(promiseArr[i]).then(res => {
                 count++
                 resultArr[i] = res
                 if (count === len) {
