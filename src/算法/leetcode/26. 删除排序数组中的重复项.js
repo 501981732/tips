@@ -31,3 +31,18 @@ var removeDuplicates = function(nums) {
     }
     return k + 1
 };
+
+function removeDuplicates(nums) {
+    let left = 0,
+        right = 0;
+        while (left < right) {
+            if (nums[left] === nums[right]) {
+                right++
+            } else {
+                right++
+                nums[left] = nums[right]
+                right++
+            }
+        }
+        return left+1
+}

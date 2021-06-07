@@ -76,8 +76,8 @@ let Event = (function () {
         if (!list[key] || list[key].length === 0) {
             return false
         }
-        for (let i = 0, fn; fn = fns[i++];) {
-            fn.apply(this, arguments)
+        for (let i = 0,len = fns.length; i < len; i++) {
+            fns[i].apply(this, arguments)
         }
     };
     // 参考jQuery once用法

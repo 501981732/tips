@@ -10,7 +10,7 @@
 
 function plusOne (digits) {
 	let i = digits.length
-	while(i-- !== 0) {
+	while(i--) {
 		digits[i]++
 		digits[i] = digits[i] % 10
 		if (digits[i]!==0) return digits
@@ -18,4 +18,17 @@ function plusOne (digits) {
 	digits[0] = 1
 	digits.push(0)
 	return digits
+}
+
+
+function plusOne(nums) {
+	let i = nums.length;
+	while(i--) {
+		nums[i]++
+		nums[i] = nums[i] % 10
+		if (nums[i] !== 0) return nums 
+	}
+	nums[0] = 1
+	nums.push(0)
+	return nums
 }

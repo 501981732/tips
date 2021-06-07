@@ -221,12 +221,12 @@ ary = arr.toString().split(',').map(Number)
 
 // es6 arr.flat(Infinity)
 // 递归
-function deepFlatten(arr) {
+function deepFlatten(arr,n) {
     let result = []
     arr.forEach(item => {
-        if (Array.isArray(item)) {
+        if (Array.isArray(item) && n > 0) {
             // result = result.concat(deepFlatten(item))
-            result.push(...deepFlatten(item))
+            result.push(...deepFlatten(item,--n))
         } else {
             result.push(item)
         }
@@ -238,6 +238,19 @@ function deepFlatten2(arr) {
     return arr.reduce((pre, cur) => {
         return pre.concat(Array.isArray(cur) ? deepFlatten2(cur) : cur)
     }, [])
+}
+function deepFlatten(arr) {
+    while(arr.some(item => Array.isArray(item))) {
+        arr = [].concat(...arr)
+    }
+    return arr
+}
+
+function deepFlatten(arr,n) {
+    while(n--) {
+        arr = [].concat(...arr)
+    }
+    return arr
 }
 
 
@@ -856,6 +869,7 @@ function curry(fn) {
     }
 }
 
+
 // 形参不定长
 function add (...args) {
     return args.reduce((a, b) => a + b)
@@ -879,3 +893,12 @@ function curry (fn) {
 let addCurry = curry(add)
 let total = addCurry(1)(2)(3)(4);
 
+jsBridge原理：
+APP与h5通讯
+
+根据约定 将全局方法绑定到webview上的windows对象上，
+native通过webview回去window上的方法直接调用
+
+h5与native主动通讯：
+h5调用native注册到webview上window上的postMessage方法，
+native拦截postmessage发出的自定义协议，调用对应路由的callback

@@ -904,3 +904,16 @@ function inOrderTraversal(root) {
 }
 
 
+
+function curry(fn) {
+    let len= fn.length;
+    let argslist = []
+    function _c(...args) {
+        let newArgs = [...argslist,...args]
+        if (newArgs.length > len) {
+            return fn.call(null, newArgs)
+        }
+        argslist = newArgs
+        return _c
+    }
+}

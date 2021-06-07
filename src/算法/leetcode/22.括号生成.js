@@ -59,3 +59,20 @@ var generateParenthesis = function(n) {
     return res
 };
 
+
+
+function generate() {
+    let res = []
+
+    function DFS(left,right,n,str,res) {
+        // terminator
+        if (left === n && right === n) res.push(str)
+         // 剪枝
+        if (left > right) return
+        // dirll down
+        if (left < n) DFS(left+1,right,n,str+'(',res)
+        if (right < left)  DFS(left,right+1,n,str+')',res)
+    }
+    DFS(0,0,n,'',res)
+    return
+}

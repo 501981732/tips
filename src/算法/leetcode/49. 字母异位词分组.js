@@ -47,3 +47,22 @@ var groupAnagrams = function(strs) {
     }
     return [...map.values()]
 };
+
+var groupAnagrams = function(strs) {
+    let map = new Map()
+    for (let i = 0,len = strs.length; i < len; i++) {
+        let item = strs[i]
+        let chararr = Array(26).fill(0)
+        for (let j = 0, len = item.length; j < len;j++) {
+            let ascii = item.charCodeAt(j) - 97
+            chararr[ascii]++
+        }
+        let key = chararr.join('')
+        if (map.has(key)) {
+            map.set(key,[...map.get(key),item])
+        } else {
+            map.set(key,[item])
+        }
+        return [...map.values()]
+    }
+};

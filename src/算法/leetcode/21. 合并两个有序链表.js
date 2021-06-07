@@ -24,3 +24,21 @@ var mergeTwoLists = function(l1, l2) {
         return l2
     }
 };
+
+var mergeTwoLists = function(l1,l2) {
+    let dummy = new ListNode();
+    let curr = dummy
+    while(l1 && l2) {
+        if (l1.val < l2) {
+            curr.next = l1;
+            l1 = l1.next
+        } else {
+            curr.next = l2;
+            l2 = l2.next
+        }
+        curr = curr.next
+    }
+    l1 && (curr.next = l1.next);
+    l2 && (curr.next = l2.next);
+    return dummy.next
+}
