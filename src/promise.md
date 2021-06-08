@@ -17,34 +17,33 @@ arr.reduce((total,curr) => {
     })
 },Promise.reslove())
 
-<!-- urls.reduce(async(total,curr)=>{ -->
-    <!-- let s = await total() -->
-    <!-- return axios.get(curr,s) -->
-    <!-- },Promise.reslove()) -->
+ <!-- urls.reduce(async(total,curr)=>{ 
+    let s = await total() 
+    return axios.get(curr,s) 
+    },Promise.reslove())  -->
 
-function runPromiseByQueue(myPromises) {
-  return myPromises.reduce(
-    (previousPromise, nextPromise) => previousPromise.then(() => nextPromise()),
-    Promise.resolve()
-  );
-}
+function runPromiseByQueue(list) {
+    list.reduce(
+        (prev, curr) => prev.then(() => curr()),
+        Promise.resolve()
+    );
+    }
 
 const createPromise = (time, id) => () =>
-  new Promise(solve =>
-    setTimeout(() => {
-      console.log("promise", id);
-      solve();
-    }, time)
-  );
-
-runPromiseByQueue([
-  createPromise(3000, 1),
-  createPromise(2000, 2),
-  createPromise(1000, 3)
-]).then(res => conosle.log(ss))
+    new Promise(solve =>
+      setTimeout(() => {
+        console.log("promise", id);
+        solve();
+      }, time)
+    );
+  
+  runPromiseByQueue([
+    createPromise(3000, 1),
+    createPromise(2000, 2),
+    createPromise(1000, 3)
+  ]);
 
 ```
-
 
 
 ## 按顺序完成异步操作

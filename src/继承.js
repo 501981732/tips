@@ -42,7 +42,7 @@ function _inherits(subClass, superClass) {
       { 
       constructor: { 
         value: subClass, 
-        enumerable: false, 
+        enumerable: false,
         writable: true, 
         configurable: true 
       } 
@@ -65,7 +65,7 @@ function _inherits(subClass, superClass) {
 // 
 // 假如我们让原型对象等于另一个类型的实例，那么原型对象将包含一个指向另一个原型的指针，相应的 另一个原型中也包含着一个指向另一个构造函数的指针
 
-
+// 每一个构造函数都有一个原型对象，原型对象都包含一个指向构造函数的指针，而实例都包含一个指向原型对象的内部指针。 ===》
 
 // 原型链继承
 function SuperType() {
@@ -114,7 +114,7 @@ function SubType(name, age) {
 }
 
 SubType.prototype = new superType()
-superType.prototype.constructor = superType //修正constructor
+SubType.prototype.constructor = SubType //修正constructor
 superType.prototype.asyAge = function() {
 
 }
@@ -153,3 +153,22 @@ superType.prototype.asyAge = function() {
 
 }
 
+
+
+function inherit(subType,superType) {
+  subType.prototype = Object.create(subType.prototype,{
+    constructor: {
+      value: subType,
+      enumerbale: false,
+      writable: true,
+      configurable: true
+    }
+  })
+}
+
+function subType(){
+  superType.call(this,arguments)
+}
+// a.__proto__.constructor.prototype === a.__proto__
+// subType.prototype = new superType()
+// subType.prototype.constructor = subType

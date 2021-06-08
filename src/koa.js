@@ -11,7 +11,6 @@ function compose(middlewareList) {
 }
 
 
-
 //KOA中间件原理解析
 const http = require('http')
 // 组合中间件
@@ -34,6 +33,8 @@ const compose = (middlewareList) => {
     }
 
 }
+
+
 class Koa2Like {
     constructor() {
         this.middlewareList = []

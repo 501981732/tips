@@ -75,12 +75,12 @@ console.log(p2) // -> ?
 ####8
 ##### 0.1 + 0.2 != 0.3
 - 计算机是通过二进制来存储东西的，0.1 在二进制中是无限循环的一些数字，这样其实没什么问题，但是 JS 采用的浮点数标准却会裁剪掉我们的数字,就会出现精度丢失的问题
--  JS 采用 IEEE 754 双精度版本（64位）
+-  JS 采用 IEEE 754 双精度版本（64位）浮点数标准
 - console.log(1)正常？ 二进制被转换为了十进制，十进制又被转换为了字符串
 
 #### 9 思考题
 1. js分哪两大类型，什么特点
-基本类型 number string boolean undefined null 
+基本类型 number string boolean undefined null symbol bigint
 引用类型 object array function 正则等。。。
 说出对象深浅拷贝的问题 
 null 和 number 存在的一些问题 
