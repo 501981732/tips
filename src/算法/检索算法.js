@@ -28,3 +28,19 @@ function binSearch(arr, data) {
     return -1;
 }
 
+
+function binSearch(arr,data) {
+    let upperBound = arr.length - 1;
+    let lowerBound = 0
+    while(lowerBound <= upperBound) {
+        let mid = Math.floor((upperBound - lowerBound) / 2);
+        if (data < arr[mid]) {
+            upperBound = mid + 1
+        } else if (data > arr[mid]) {
+            lowerBound = mid - 1
+        } else {
+            return mid
+        }
+    }
+    return -1
+}

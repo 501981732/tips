@@ -81,3 +81,10 @@ export function install (_Vue) {
   applyMixin(Vue)
 }
 
+function Singleton(fn) {
+  let result;
+  return function() {
+    return result ||  (result = fn.call(this, arguments))
+  }
+}
+

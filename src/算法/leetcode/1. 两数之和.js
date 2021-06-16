@@ -28,38 +28,3 @@ var twoSum = function(nums, target) {
         i++
     }
 }
-
-function inorder(root) {
-    if (!root) return []
-    const stack = []
-    const res = []
-    while (stack.length || root) {
-        if (root) {
-            stack.push(root.left)
-            root = root.left
-        } else {
-            root = stack.pop()
-            res.push(root.val)
-            root = root.right
-        }
-    }
-}
-function preorder(root) {
-    const stack = []
-    const res = []
-    
-}
-
-function inorder(root) {
-    if (!root) return []
-    const res = []
-    function in(root) {
-        if (!root) return
-        in(root.left)
-        res.push(root.val)  
-        in(root.right)
-    }
-    in(root)
-    return res
-}
-

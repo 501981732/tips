@@ -111,7 +111,7 @@ children:[{
 - js with语法 (延长作用域链的长度)
 
 ```
-将{}内的自由变量当初obj的属性查找
+将{}内的自由变量当成obj的属性查找
  with(obj){
 console.log(c)// 相当于 obj.c
 }
@@ -171,17 +171,23 @@ console.log(res.render)
 
 - v-show 和 v-if区别
 
- 	- v-show 控制css  v-if组件真正的渲染和销毁
+  - v-show 控制css  v-if组件真正的渲染和销毁
+
  	- 频繁切换用v-show
 
 - 为何 v-for中的key
 	
 	- 必须是key 不能是index和random 
- 	- diff算法中tag和key来判断是否是sameNode
+	
+  - diff算法中tag和key来判断是否是sameNode
+
  	- 减少渲染测试，提升渲染性能
 
  - 生命周期
- 		```
+ 		
+ - <img src='./render.png'/>
+ 		
+```
  		create mount update destory
  		```
 ```
@@ -196,7 +202,7 @@ console.log(res.render)
 	- 自定义事件eventbus  event.$on event .$emit
 	- vuex
 - 描述组件渲染更新过程
-<img src='./render.png'/>
+
 
 - 双向数据绑定v-model实现原理(自己实现)
 
@@ -215,6 +221,8 @@ console.log(res.render)
 	}
 	```
 - 对MVVM的理解
+
+  
 
 
 - computed有何特点

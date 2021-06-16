@@ -168,3 +168,68 @@ function merge(left, right) {
     return result;
 }
 
+// ----------------------------------------------------------
+function mergeSort(arr) {
+    let len = arr.length;
+    if (len < 2) return arr
+    let mid = len >> 1;
+    let left = arr.slice(0,mid)
+    let right = arr.slice(mid)
+    return merge(mergeSort(left),mergeSort(right));
+}
+// https://leetcode-cn.com/problems/median-of-two-sorted-arrays/submissions/
+// function merge(left,right) {
+//     let result = []
+//     while(left.length && right.length) {
+//         if (left[0] <= right[0]) {
+//             result.push(left.shift())
+//         } else {
+//             result.push(right.shift())
+//         }
+//     }
+//     while (left.length) {
+//         result.push(left.shift())
+//     }
+//     while (right.length) {
+//         result.push(right.shift())
+//     }
+//     return result
+// }
+
+function merge(arr1,arr2) {
+    let len1 = arr1.length,
+        len2 = arr2.length,
+        i = 0,
+        j = 0,
+        newArr = []
+        while (i < len1 && j < len2) {
+            if (arr[i] <= arr[j]) {
+                newArr.push(arr1[i++])
+            } else {
+                newArr.push(arr2[j++])
+            }
+        }
+        while (i < len1) {
+            newArr.push(arr1[i++])     
+        }
+        while ( j < len2) {
+            newArr.push(arr2[j++])     
+        }
+        return newArr
+}
+
+function quickSort(arr) {
+    let len = arr.length;
+    if (len <=1) return arr
+    let left = [],
+        right = [],
+        p = arr[len >> 1];
+        for (let i = 0; i < len; i++) {
+            if (arr[i] <= p) {
+                left.push(arr[i])
+            } else {
+                right.push(arr[i])
+            }
+        }
+        return quickSort(left).concat(p,quickSort(right))
+}

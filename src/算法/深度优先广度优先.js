@@ -34,23 +34,23 @@ function DFS(root, id) {
   }
 }
 
-export function DFS < T extends {
-  children: T[]
-} > (node: T, res: any[] = []): T[] {
-  if (node !== null) {
-    const {
-      children
-    } = node;
-    if (children) {
-      res.push(children);
-      for (let i = 0, len = children.length; i < len; i++) {
-        const item = children[i];
-        DFS(item, res);
-      }
-    }
-  }
-  return res;
-}
+// export function DFS < T extends {
+//   children: T[]
+// } > (node: T, res: any[] = []): T[] {
+//   if (node !== null) {
+//     const {
+//       children
+//     } = node;
+//     if (children) {
+//       res.push(children);
+//       for (let i = 0, len = children.length; i < len; i++) {
+//         const item = children[i];
+//         DFS(item, res);
+//       }
+//     }
+//   }
+//   return res;
+// }
 
 function DFS(node,res) {
   if (node) {

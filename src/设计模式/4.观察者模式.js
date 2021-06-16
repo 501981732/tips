@@ -374,6 +374,7 @@ var Event = (function () {
 
 
 
+<<<<<<< Updated upstream
 
 
 // ---------------------------------------------
@@ -435,3 +436,111 @@ let Event = (function () {
         once,
     }
 })()
+=======
+// -----------------------
+
+Event.trigger('click',111)
+
+var Event = (function(){
+    let list = {},
+    listen,
+    trigger,
+    once,
+    remove;
+
+    listen = function(name,fn) {
+        list[name] = list[name] || []
+        list[name].push(fn)
+    }
+
+    trigger = function(name,...args) {
+        if (!list[name] || list[name].length === 0) return
+        for (let i = 0;i < list[name].length;i++) {
+            list[name].apply(this,args)
+        }
+    }
+
+    remove = function(name,fn) {
+        let fns = list[name]
+        if (!fns || fns.length === 0) return
+        if (!fn) fns.length = 0
+        for (let i = 0, len = fns.length; i < len; i++) {
+            if (fns[i] === fn) {
+                fns.splice(i,1)
+            }
+        }
+    }
+    once = function(name,fn) {
+        let only = function(...args) {
+            fn.apply(this,args)
+            remove(name)
+        }
+        listen(name,only)
+    }
+    return {
+        listen,
+        trigger,
+        once,
+        remove
+    }
+
+})();
+
+
+
+// Event.listen('hello',function(name) {
+//     console.log('hello' + name)
+// })
+// Event.trigger('hello', 'wangmeng')
+
+
+const Event = (function(){
+    let list = {},
+        trigger,
+        listen,
+        remove,
+        once;
+
+        listen = function (key,fn) {
+            list[key] = list[key] || []
+            list[key].push(fn)
+        }
+        trigger = function (key,...args) {
+            let fns = list[key]
+            if (!fns || !fns.length) return
+            for(let i = 0,len = fns.length; i < len; i++) {
+                let fn = fns[i]
+                fn.apply(this,args)
+            }
+        }
+        remove = function (key,fn) {
+            let fns = list[key]
+            if (!fns || !fns.length) return
+            if (!fn) fns.length = 0
+            for (let i = 0,len = fns.length; i < len; i++) {
+                if (fns[i] === fn) {
+                    fns.splice(i,1)
+                }
+            }
+        }
+        once = function(key,fn) {
+            let only = function(){
+                fn.call(this,arguments)
+                remove(only)
+            }
+            listen(key,only)
+        }
+        
+        return {
+            listen,
+            trigger,
+            remove,
+            once
+        }
+})()
+
+Event.listen('click',function(){
+
+})
+Event.trigger('click','x')
+>>>>>>> Stashed changes

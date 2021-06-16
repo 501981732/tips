@@ -42,6 +42,7 @@ var removeNthFromEnd = function(head, n) {
 
 
 var removeNthFromEnd = function(head, n) {
+<<<<<<< Updated upstream
     let dummy = new LinkNode();
     dummy.next = head
     let fast = dummy,
@@ -52,6 +53,20 @@ var removeNthFromEnd = function(head, n) {
         slow = slow.next
     }
     slow.next = slow.next.next;
+=======
+    let dummy = new ListNode();
+    dummy.next = head
+    let fast = dummy,
+        slow = dummy;
+    while (n--) {
+        fast = fast.next
+    }
+    while(fast && fast.next) {
+        fast = fast.next;
+        slow = slow.next
+    }
+    slow.next = slow.next.next
+>>>>>>> Stashed changes
     return dummy.next
 };
 

@@ -21,3 +21,19 @@ var findNumberIn2DArray = function(matrix, target) {
     }
     return false
 };
+
+// 右下角建立坐标
+function findNumberIn2DArray(matrix,target) {
+    // matrix[i][j]
+    if (!matrix.length) return false
+   let i = matrix.length - 1, j = 0
+   while (i > 0 && j < matrix[0].length) {
+       if (matrix[i][j] === target) return true
+       if (matrix[i][j] > target) {
+           i--
+       } else {
+           j++
+       }
+   }
+   return false
+}

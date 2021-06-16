@@ -1,5 +1,5 @@
 // 各种源码实现：https://mp.weixin.qq.com/s/9xvI37cKpSRFRMhQ2yc_zg
-Function.prototype.mycall = function(context = window) {
+Function.prototype.mycall = function (context = window) {
     // 不传第一个参数默认挂载到window上
     // 改变this指向让新对象可以执行该函数，并能接收函数
     if (typeof this !== 'function') {
@@ -12,7 +12,21 @@ Function.prototype.mycall = function(context = window) {
     return result
 }
 
-Function.prototype.myApply = function(context = window) {
+if (!Function.prototype.call) {
+    Function.prototype.call = function (context) {
+        if (typeof this !== 'function') throw Error('');
+        context.fn = this
+        let result
+        if (arguments[1]) {
+            result = context.fn(arguments[1])
+        } else {
+            result = context.fn()
+        }
+        delete context.fn;
+        return result
+    }
+}
+Function.prototype.myApply = function (context = window) {
     if (typeof this !== 'fsunction') {
         throw new TypeError('Error')
     }
@@ -52,7 +66,7 @@ if (!Function.prototype.bind) {
         context.__fn__ = this
 
         context.__result = function F() {
-            const args = [...arguments,...restArg]
+            const args = [...arguments, ...restArg]
             if (this instanceof F) {
                 return new context.__fn__(...args)
             } else {
@@ -66,7 +80,7 @@ if (!Function.prototype.bind) {
 // test
 var people = {
     name: "people",
-    sayHello: function(age, sex) {
+    sayHello: function (age, sex) {
         console.log("hello, i am ", this.name + " " + age + " years old" + sex);
     }
 };
@@ -97,6 +111,7 @@ function myNew(fn, ...args) {
     Cons.apply(o, args);
     return o;
 }
+
 function _new(fn, ...args) {
     const obj = Object.create(fn.prototype);
     const result = fn.apply(obj, args);
@@ -112,7 +127,7 @@ function jsonp(url, callbackName, success) {
     script.src = url
     script.type = 'text/javascript'
     script.async = true
-    window[callbackName] = function(data) {
+    window[callbackName] = function (data) {
         success && success(data)
     }
     document.body.appendChild(script)
@@ -148,15 +163,15 @@ function jsonp(url, callbackName, success) {
 
 // 防抖 指触发事件后，在 n 秒内函数只能执行一次，如果触发事件后在 n 秒内又触发了事件，则会重新计算函数延执行时间
 
-function debounce(fn,time) {
+function debounce(fn, time) {
     let timer = null
-    return function() {
-        let context  = this
-        if (timer)  clearTimeout(timer);
-            timer = setTimeout(()=> {
-                fn.call(context,arguments)
-                timer = null
-            },time)
+    return function () {
+        let context = this
+        if (timer) clearTimeout(timer);
+        timer = setTimeout(() => {
+            fn.call(context, arguments)
+            timer = null
+        }, time)
     }
 }
 // 节流
@@ -173,12 +188,12 @@ function debounce(fn,time) {
 //     }
 // }
 
-function throttle2(fn,time) {
+function throttle2(fn, time) {
     let activeTime = 0;
-    return function() {
+    return function () {
         let current = Date.now();
-        if (current - activeTime>=time*1000) {
-            fn.call(this,arguments)
+        if (current - activeTime >= time * 1000) {
+            fn.call(this, arguments)
             activeTime = Date.now();
         }
     }
@@ -189,7 +204,7 @@ function throttle2(fn,time) {
 const debounce2 = (func, wait, immediate) => {
     let timer = null,
         result;
-    return function(args) {
+    return function (args) {
         const context = this
         if (timer) {
             clearTimeout(timer)
@@ -197,12 +212,12 @@ const debounce2 = (func, wait, immediate) => {
         if (immediate) {
             // 如果已经执行过 不再执行
             let callNow = !timer
-            timer = setTimeout(function() {
+            timer = setTimeout(function () {
                 timer = null
             }, wait)
             if (callNow) result = func.apply(context, args)
         } else {
-            timer = setTimeout(function() {
+            timer = setTimeout(function () {
                 result = func.apply(context, args)
             }, wait)
         }
@@ -281,7 +296,9 @@ function copy(dist) {
     function isObject(o) {
         return typeof o === 'object'
     }
-    let target = Array.isArray(dist) ? [...dist] : { ...dist }
+    let target = Array.isArray(dist) ? [...dist] : {
+        ...dist
+    }
     Reflect.ownKeys(target).forEach(item => {
         target[item] = isObject(target(item)) ? copy(target[item]) : target[key]
     })
@@ -310,7 +327,7 @@ function moveZero(arr) {
         if (arr[i] === 0) {
             // arr.push(0);
             // arr.splice(i, 1); //至此数组长度不变
-             [arr[i],arr[len-j-1]] = [arr[len-j-1],arr[i]]
+            [arr[i], arr[len - j - 1]] = [arr[len - j - 1], arr[i]]
 
             i--; //保证下次还是从当前index开始  //这样会有bug 万一第一个就是0的时候 
             j++;
@@ -325,7 +342,7 @@ function moveZero(arr) {
     let j = 0;
     for (let i = 0; i < len - j;) {
         if (arr[i] === 0) {
-             [arr[i],arr[len-j-1]] = [arr[len-j-1],arr[i]]
+            [arr[i], arr[len - j - 1]] = [arr[len - j - 1], arr[i]]
             j++;
         }
         i++
@@ -357,20 +374,54 @@ const twoNum = (arr, target) => {
 // 88 实现 convert 方法，把原始 list 转换成树形结构，要求尽可能降低时间复杂度
 //
 // 原始 list 如下
-let list = [
-    { id: 1, name: '部门A', parentId: 0 },
-    { id: 2, name: '部门B', parentId: 0 },
-    { id: 3, name: '部门C', parentId: 1 },
-    { id: 4, name: '部门D', parentId: 1 },
-    { id: 5, name: '部门E', parentId: 2 },
-    { id: 6, name: '部门F', parentId: 3 },
-    { id: 7, name: '部门G', parentId: 2 },
-    { id: 8, name: '部门H', parentId: 4 }
+let list = [{
+        id: 1,
+        name: '部门A',
+        parentId: 0
+    },
+    {
+        id: 2,
+        name: '部门B',
+        parentId: 0
+    },
+    {
+        id: 3,
+        name: '部门C',
+        parentId: 1
+    },
+    {
+        id: 4,
+        name: '部门D',
+        parentId: 1
+    },
+    {
+        id: 5,
+        name: '部门E',
+        parentId: 2
+    },
+    {
+        id: 6,
+        name: '部门F',
+        parentId: 3
+    },
+    {
+        id: 7,
+        name: '部门G',
+        parentId: 2
+    },
+    {
+        id: 8,
+        name: '部门H',
+        parentId: 4
+    }
 ];
 // 1 filter+map
 function nest(items, id = 0, link = 'parentId') {
     return items.filter(item => item[link] === id)
-        .map(item => ({ ...item, children: nest(items, item.id) }))
+        .map(item => ({
+            ...item,
+            children: nest(items, item.id)
+        }))
 }
 nest(list)
 
@@ -410,7 +461,23 @@ function convert(list) {
 }
 // 125 如何将重复数组转成树形结构的数组
 
-const arr = [{ id: 1 }, { id: 2, pId: 1 }, { id: 3, pId: 2 }, { id: 4 }, { id: 3, pId: 2 }, { id: 5, pId: 4 }]
+const arr = [{
+    id: 1
+}, {
+    id: 2,
+    pId: 1
+}, {
+    id: 3,
+    pId: 2
+}, {
+    id: 4
+}, {
+    id: 3,
+    pId: 2
+}, {
+    id: 5,
+    pId: 4
+}]
 
 function convert(list, link = 'parentId') {
     let res = [];
@@ -467,17 +534,17 @@ function shuffle(arr, size) {
 }
 
 var entry = {
-a: {
- b: {
-   c: {
-     dd: 'abcdd'
-   }
- },
- d: {
-   xx: 'adxx'
- },
- e: 'ae'
-}
+    a: {
+        b: {
+            c: {
+                dd: 'abcdd'
+            }
+        },
+        d: {
+            xx: 'adxx'
+        },
+        e: 'ae'
+    }
 }
 
 // // 要求转换成如下对象
@@ -514,15 +581,15 @@ function changeObj(obj) {
     let res = {}
     for (let item of keys) {
         let everyKeys = item.split('.');
-        everyKeys.reduce((prev,curr,index,array) => {
-            if (index === array.length -1) {
+        everyKeys.reduce((prev, curr, index, array) => {
+            if (index === array.length - 1) {
                 // 最后一个
                 prev[curr] = obj[item]
                 return
             }
             prev[curr] = prev[curr] || {}
             return prev[curr]
-        },res)
+        }, res)
     }
     return res
 }
@@ -530,7 +597,7 @@ function changeObj(obj) {
 // setTimeout模拟setInterval
 
 function myInterval(fn) {
-    myInterval.timer = setTimeout(function() {
+    myInterval.timer = setTimeout(function () {
         arguments[0]();
         myInterval(arguments)
     }, arguments[1])
@@ -584,8 +651,8 @@ function merge(a, b) {
     if (a.length === 0) return b
     if (b.length === 0) return a
 
-    while (a[i] !==undefined || b[j] !==undefined) {
-        if ((a[i]!==undefined && b[j]===undefined) || a[i] < b[j]) {
+    while (a[i] !== undefined || b[j] !== undefined) {
+        if ((a[i] !== undefined && b[j] === undefined) || a[i] < b[j]) {
             newArr.push(a[i])
             i++
         } else {
@@ -618,7 +685,7 @@ function compose(...fns) {
     if (fns.length === 1) {
         return fns[0]
     }
-    return function(x) {
+    return function (x) {
         return fns.reduce((args, curr) => {
             return curr(args)
         }, x)
@@ -637,33 +704,32 @@ function compose(...fns) {
 console.log(a);
 var a = 1;
 
-function a() {
-}
+function a() {}
 
 
 // 59 两个数组的交集合
 
 const intersect = (nums1, nums2) => {
-  const map = {}
-  const res = []
-  for (let n of nums1) {
-    if (map[n]) {
-      map[n]++
-    } else {
-      map[n] = 1
+    const map = {}
+    const res = []
+    for (let n of nums1) {
+        if (map[n]) {
+            map[n]++
+        } else {
+            map[n] = 1
+        }
     }
-  }
-  for (let n of nums2) {
-    if (map[n] > 0) {
-      res.push(n)
-      map[n]--
+    for (let n of nums2) {
+        if (map[n] > 0) {
+            res.push(n)
+            map[n]--
+        }
     }
-  }
-  return res
+    return res
 }
 
 // 142 多个数组之间的交集
- // 如果没有提供初始值，则将使用数组中的第一个元素。 在没有初始值的空数组上调用 reduce 将报错
+// 如果没有提供初始值，则将使用数组中的第一个元素。 在没有初始值的空数组上调用 reduce 将报错
 function handle(arr) {
     if (arr.length === 0) {
         return []
@@ -671,7 +737,7 @@ function handle(arr) {
     if (arr.length === 1) {
         return arr[0]
     }
-    return arr.reduce((prev,curr) => {
+    return arr.reduce((prev, curr) => {
         return prev.filter(item => curr.includes(item))
     })
 }
@@ -701,213 +767,259 @@ function test(arr) {
 // 没有考虑到数据类型为null,undefind等类型 包括数据为对象时key顺序不同的问题
 // 这里再更正一下
 // 判断对象
-function isObj(obj){
- return Object.prototype.toString.call(obj) === '[object Object]'
+function isObj(obj) {
+    return Object.prototype.toString.call(obj) === '[object Object]'
 }
 // 对象重整 对key进行排序
-function parseObj(obj){
+function parseObj(obj) {
     let keys = Object.keys(obj).sort()
     let newObj = {}
-    for(let key of keys){
-               // 不晓得有没有有必要，反正把value为obj的情况也处理一下 - -
-                obj[key]=isObj(obj[key])?parseObj(obj[key]):obj[key]
+    for (let key of keys) {
+        // 不晓得有没有有必要，反正把value为obj的情况也处理一下 - -
+        obj[key] = isObj(obj[key]) ? parseObj(obj[key]) : obj[key]
         newObj[key] = obj[key]
     }
     return newObj
 }
 
 // 最后
-const arr = [1,'1',{a:1,b:"1"},{b:'1',a:1},{a:1,b:2},[1,2,3],null,undefined,undefined]
-function passArr(arr){
-    return [...new Set(arr.map(item=>
-        isObj(item)? JSON.stringify(parseObj(item)) : ( !item ? item : JSON.stringify(item))
-    ))].map(item=>!item?item : JSON.parse(item))
+const arr = [1, '1', {
+        a: 1,
+        b: "1"
+    }, {
+        b: '1',
+        a: 1
+    }, {
+        a: 1,
+        b: 2
+    },
+    [1, 2, 3], null, undefined, undefined
+]
 
-// 连续出现最多的字符
-'aaasdofjaopfjopaiiisjssfopiasdfffff'.match(/(.)\1+/g)
+function passArr(arr) {
+    return [...new Set(arr.map(item =>
+        isObj(item) ? JSON.stringify(parseObj(item)) : (!item ? item : JSON.stringify(item))
+    ))].map(item => !item ? item : JSON.parse(item))
+
+    // 连续出现最多的字符
+    'aaasdofjaopfjopaiiisjssfopiasdfffff'.match(/(.)\1+/g)
 
 
 
- class LazyManClass {
-     constructor(name) {
-         this.name = name
-         this.taskList = [];
-        console.log(`I am ${this.name}`)
+    class LazyManClass {
+        constructor(name) {
+            this.name = name
+            this.taskList = [];
+            console.log(`I am ${this.name}`)
 
-        setTimeout(() => {
-            this.next();
-        }, 0);
-        // Promise.reslove().then(this.next())
-     }
+            setTimeout(() => {
+                this.next();
+            }, 0);
+            // Promise.reslove().then(this.next())
+        }
 
-     eat(food) {
-         const fn = () => {
-             console.log(`I am eating${food}`)
-             this.next()
-         }
-         this.taskList.push(fn)
-         return this
-     }
-     sleep(time) {
-         const fn = () => {
-             setTimeout(() => {
-                 console.log(`等待了${time}秒`)
-                 this.next()
-             },time*1000)
-         }
-        this.taskList.push(fn)
-        return this
-     }
-  sleepFirst(time) {
-    const fn = () => {
-      setTimeout(() => {
-        console.log(`等待了${time}秒...`)
-        this.next()
-      }, time*1000)
+        eat(food) {
+            const fn = () => {
+                console.log(`I am eating${food}`)
+                this.next()
+            }
+            this.taskList.push(fn)
+            return this
+        }
+        sleep(time) {
+            const fn = () => {
+                setTimeout(() => {
+                    console.log(`等待了${time}秒`)
+                    this.next()
+                }, time * 1000)
+            }
+            this.taskList.push(fn)
+            return this
+        }
+        sleepFirst(time) {
+            const fn = () => {
+                setTimeout(() => {
+                    console.log(`等待了${time}秒...`)
+                    this.next()
+                }, time * 1000)
+            }
+            this.taskList.unshift(fn)
+            return this
+        }
+        next() {
+            let fn = this.taskList.shift()
+            fn && fn()
+        }
+
     }
-    this.taskList.unshift(fn)
-    return this
-  }
-     next() {
-         let fn = this.taskList.shift()
-         fn && fn()
-     }
 
- }
-
- function LazyMan(name) {
-     return new LazyManClass(name)
- }
-
-
-
-LazyMan('Tony');
-// Hi I am Tony
-
-LazyMan('Tony').sleep(10).eat('lunch');
-// Hi I am Tony
-// 等待了10秒...
-// I am eating lunch
-
-LazyMan('Tony').eat('lunch').sleep(10).eat('dinner');
-// Hi I am Tony
-// I am eating lunch
-// 等待了10秒...
-// I am eating diner
-
-LazyMan('Tony').eat('lunch').eat('dinner').sleepFirst(5).sleep(10).eat('junk food');
-
-
-
-function Foo(){
-    Foo.a = function(){
-        console.log(1)
+    function LazyMan(name) {
+        return new LazyManClass(name)
     }
-    this.a = function(){
-        console.log(2)
+
+
+
+    LazyMan('Tony');
+    // Hi I am Tony
+
+    LazyMan('Tony').sleep(10).eat('lunch');
+    // Hi I am Tony
+    // 等待了10秒...
+    // I am eating lunch
+
+    LazyMan('Tony').eat('lunch').sleep(10).eat('dinner');
+    // Hi I am Tony
+    // I am eating lunch
+    // 等待了10秒...
+    // I am eating diner
+
+    LazyMan('Tony').eat('lunch').eat('dinner').sleepFirst(5).sleep(10).eat('junk food');
+
+
+
+    function Foo() {
+        Foo.a = function () {
+            console.log(1)
+        }
+        this.a = function () {
+            console.log(2)
+        }
     }
-}
-Foo.prototype.a = function(){
-    console.log(3)
-}
-Foo.a = function(){
-    console.log(4)
-}
+    Foo.prototype.a = function () {
+        console.log(3)
+    }
+    Foo.a = function () {
+        console.log(4)
+    }
 
-Foo.a();
-let obj = new Foo();
-obj.a();
-Foo.a();
-
-
-(function(){var x = y = 1})()
-console.log(x)
-console.log(y)
+    Foo.a();
+    let obj = new Foo();
+    obj.a();
+    Foo.a();
 
 
-// 实现一个add方法，使计算结果能够满足如下预期：
-// add(1)(2)(3) = 6;
-// add(1, 2, 3)(4) = 10;
-// add(1)(2)(3)(4)(5) = 15;
+    (function () {
+        var x = y = 1
+    })()
+    console.log(x)
+    console.log(y)
 
-function add() {
-    let _args = [...arguments];
-    // 在内部声明一个函数，利用闭包的特性保存_args并收集所有的参数值
-    function fn() {
-        _args.push(...arguments);
+
+    // 实现一个add方法，使计算结果能够满足如下预期：
+    // add(1)(2)(3) = 6;
+    // add(1, 2, 3)(4) = 10;
+    // add(1)(2)(3)(4)(5) = 15;
+
+    function add() {
+        let _args = [...arguments];
+        // 在内部声明一个函数，利用闭包的特性保存_args并收集所有的参数值
+        function fn() {
+            _args.push(...arguments);
+            return fn
+        }
+        // 利用toString隐式转换的特性，当最后执行时隐式转换，并计算最终的值返回
+        fn.toString = function () {
+            return _args.reduce((a, b) => a + b, 0)
+        }
         return fn
     }
-    // 利用toString隐式转换的特性，当最后执行时隐式转换，并计算最终的值返回
-    fn.toString = function() {
-        return _args.reduce((a,b) => a + b,0)
+
+
+    // 用于创建已经设置好了一个或多个的函数。和函数绑定一样，使用闭包返回一个函数。
+    // 动态创建步骤：调用另一个函数，并为它传入要柯里化的函数和必要的参数。
+
+    // 84 通用的科里化函数
+    function add(a, b, c) {
+        return a + b + c
     }
-    return fn
-}
+    const curryAdd = curry(add)
+    console.log(curryAdd(1, 2)(3))
 
+    // 形参定长
 
-// 用于创建已经设置好了一个或多个的函数。和函数绑定一样，使用闭包返回一个函数。
-// 动态创建步骤：调用另一个函数，并为它传入要柯里化的函数和必要的参数。
+    // function curry(fn) {
+    //     // 闭包内设置实参总长及实参列表
+    //     const len = fn.length
+    //     let arglist = []
+    //     return function _c(...args) {
+    //         let newArgs = [...arglist,...args]
+    //         if (newArgs.length >= len) {
+    //             return fn.apply(null,newArgs)
+    //         }
+    //         // 闭包记录参数列表
+    //         arglist = newArgs
+    //         return _c
+    //     }
+    // }
 
-// 84 通用的科里化函数
-function add(a, b, c) {
-    return a + b + c
-}
-const curryAdd = curry(add)
-console.log(curryAdd(1, 2)(3))
-
-// 形参定长
-
-// function curry(fn) {
-//     // 闭包内设置实参总长及实参列表
-//     const len = fn.length
-//     let arglist = []
-//     return function _c(...args) {
-//         let newArgs = [...arglist,...args]
-//         if (newArgs.length >= len) {
-//             return fn.apply(null,newArgs)
-//         }
-//         // 闭包记录参数列表
-//         arglist = newArgs
-//         return _c
-//     }
-// }
-
-function curry(fn) {
-    const len = fn.length
-    let arglist = []
-    return function _c(){
-        arglist = [...arglist, ...arguments]
-        if (arglist.length >= len) {
-            return fn.apply(null, arglist)
+    function curry(fn) {
+        const len = fn.length
+        let arglist = []
+        return function _c() {
+            arglist = [...arglist, ...arguments]
+            if (arglist.length >= len) {
+                return fn.apply(null, arglist)
+            }
+            return _c
         }
-        return _c
     }
-}
 
+    // 形参不定长
+    function add(...args) {
+        return args.reduce((a, b) => a + b)
+    }
+
+    function curry(fn) {
+        let args = []
+        return function curring(...newArgs) {
+            if (newArgs.length) {
+                args = [
+                    ...args,
+                    ...newArgs
+                ]
+                return curring
+            } else {
+                return fn.apply(this, args)
+            }
+        }
+    }
+
+    let addCurry = curry(add)
+    let total = addCurry(1)(2)(3)(4);
+
+
+
+    2. 已知有2个栈， 有pop， push， getSize接口， 请用这2个栈实现1个队列， 包含dequeue和enqueue接口。
+
+    class Stack {
+        constructor() {
+            this._stack = [];
+        }
+
+<<<<<<< Updated upstream
 
 // 形参不定长
 function add (...args) {
     return args.reduce((a, b) => a + b)
 }
+=======
+        pop() {
+            this._stack.pop();
+            return this;
+        }
+>>>>>>> Stashed changes
 
-function curry (fn) {
-    let args = []
-    return function curring (...newArgs) {
-        if (newArgs.length) {
-            args = [
-                ...args,
-                ...newArgs
-            ]
-            return curring
-        } else {
-            return fn.apply(this, args)
+        push(item) {
+            this._stack.push(item);
+            return this;
+        }
+
+        getSize() {
+            return this._stack.length;
         }
     }
-}
 
-let addCurry = curry(add)
-let total = addCurry(1)(2)(3)(4);
-
+<<<<<<< Updated upstream
 jsBridge原理：
 APP与h5通讯
 
@@ -917,3 +1029,28 @@ native通过webview回去window上的方法直接调用
 h5与native主动通讯：
 h5调用native注册到webview上window上的postMessage方法，
 native拦截postmessage发出的自定义协议，调用对应路由的callback
+=======
+class Queue {
+    constructor() {
+        this._stack1 = new Stack()
+        this._stack2 = new Stack()
+    }
+    enqueue(item) {
+        this._stack2.push(item);
+    }
+    dequeue() {
+        if (this._stack1().getSize === 0 && this._stack2.getSize() === 0) {
+            return null
+        } 
+        if (this._stack1.getSize()) {
+            while (this._stack2.getSize()) {
+                this._stack1.push(this._stack2.pop())
+            }
+            return this._stack1.pop()
+        }
+        if (this._stack2.getSize()) {
+            return this._stack2.pop()
+        }
+    }
+}
+>>>>>>> Stashed changes
