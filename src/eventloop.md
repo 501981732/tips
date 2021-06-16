@@ -36,15 +36,7 @@ timers 阶段会执行 setTimeout 和 setInterval 回调，并且是由 poll 阶
 
 - poll 
 
-系统会做两件事
-1. 回到 timer 阶段执行回调
-2. 执行 I/O 回调
-如果 poll 队列不为空，会遍历回调队列并同步执行，直到队列为空或者达到系统限制
-如果 poll 队列为空时，会有两件事发生
 
-    1. 如果有 setImmediate 回调需要执行，poll 阶段会停止并且进入到 check 阶段执行回调
-    2. 如果没有 setImmediate 回调需要执行，会等待回调被加入到队列中并立即执行回调，这里同样会有个超时时间设置防止一直等待下去
-当然设定了 timer 的话且 poll 队列为空，则会判断是否有 timer 超时，如果有的话会回到 timer 阶段执行回调
 
 - check
 

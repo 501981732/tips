@@ -623,6 +623,9 @@ function compose(...fns) {
             return curr(args)
         }, x)
     }
+
+    return fns.reduce((prev, curr) => (...args) => prev(curr(...args)))
+    
 }
 // function compose(...fns) {
 //     return fns.reduce((f, g) => (...args) => f(g(...args)))
