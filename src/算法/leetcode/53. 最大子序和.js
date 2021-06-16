@@ -16,3 +16,14 @@ var maxSubArray = function(nums) {
     }
     return max
 }
+
+function maxSubArray(nums) {
+    // 要不就以当前值重新计算 要不就累加
+    let currentMax = 0,
+        max = -Infinity;
+        for (let i = 0,len = nums.length; i < len; i++) {
+            currentMax = Math.max(currentMax+nums[i],nums[i]);
+            max = Math.max(max,currentMax)
+        }
+        return max
+}

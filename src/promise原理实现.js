@@ -179,10 +179,7 @@ MyPromise.prototype.then = function(onFulfilled, onRejected) {
 
 
 
-
-
-window.Promise.prototype = {
-    finally: function(callback) {
+window.Promise.prototype.finally = function(callback) {
         let P = this.constructor;
         return this.then(
             value => P.resolve(callback()).then(() => value),
@@ -190,38 +187,12 @@ window.Promise.prototype = {
                 throw reason
             })
         );
-    }
 }
-
-
-
-
-
-
 
 
 
 // promise.all原理
 // https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/130
-// Promise.all = function (promiseArrs) { //在Promise类上添加一个all方法，接受一个传进来的promise数组
-//   if(!Array.isArray(promiseArrs)) return new Error('error')
-//     return new Promise((resolve, reject) => { //返回一个新的Promise
-//         let arr = []; //定义一个空数组存放结果
-//         let i = 0;
-//         function handleData(index, data) { //处理数据函数
-//             arr[index] = data;
-//             // i++;
-//             if (i === promiseArrs.length) { //当i等于传递的数组的长度时 
-//                 resolve(arr); //执行resolve,并将结果放入
-//             }
-//         }
-//         for (let i = 0; i < promiseArrs.length; i++) { //循环遍历数组
-//             promiseArrs[i].then((data) => {
-//                 handleData(i, data); //将结果和索引传入handleData函数
-//             }, reject)
-//         }
-//     })
-// }
 
 function PromiseAll(promiseArr) {
     if (!Array.isArray(promiseArrs)) return new Error('error')

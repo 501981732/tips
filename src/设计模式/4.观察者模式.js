@@ -76,8 +76,8 @@ let Event = (function () {
         if (!list[key] || list[key].length === 0) {
             return false
         }
-        for (let i = 0, fn; fn = fns[i++];) {
-            fn.apply(this, arguments)
+        for (let i = 0,len = fns.length; i < len; i++) {
+            fns[i].apply(this, arguments)
         }
     };
     // 参考jQuery once用法
@@ -371,3 +371,67 @@ var Event = (function () {
 
     return Event;
 })();
+
+
+
+
+
+// ---------------------------------------------
+let Event = (function () {
+    let list = {},
+        listen,
+        trigger,
+        once,
+        remove;
+    listen = function (key, fn) {
+        list[key] = list[key] || []
+        list[key].push(fn)
+    };
+
+    trigger = function (key,...args) {
+        // let key = Array.prototype.shift.call(arguments),
+            fns = list[key];
+        if (!list[key] || !list[key].length) {
+            return false
+        }
+        for (let i = 0,len = fns.length; i < len; i++) {
+            fns[i].apply(this, args)
+        }
+    };
+    // 参考jQuery once用法
+    // $("p").one("click",function(){
+    // alert('1')
+    // });
+    // 其实改的是listen的用法
+    once = function (key, fn) {
+        // 中间函数 调用完之后删除订阅
+        let only = function (...args) {
+            fn.apply(this, args);
+            remove(key)
+        }
+        // only.origin = fn;
+        listen(key, only)
+    }
+
+    remove = function (key, fn) {
+        let fns = list[key];
+        if (!fns) {
+            return false
+        }
+        if (!fn) {
+            fns && (fns.length = 0)
+        } else {
+            for (let i = fns.length; i <= 0; i--) {
+                if (fn === fns[i]) {
+                    fns.splice(i, 1)
+                }
+            }
+        }
+    };
+    return {
+        listen,
+        trigger,
+        remove,
+        once,
+    }
+})()

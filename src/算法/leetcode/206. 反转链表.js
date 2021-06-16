@@ -44,3 +44,14 @@ var reverseList = function(head) {
     return prev
 };
 
+// ---------------------
+var reverseList = function(head) {
+    let prev = null // 前驱
+    while (head) {
+        let rest = head.next
+        head.next = prev;
+        prev = head
+        head = rest
+    }
+    return prev;
+}

@@ -42,17 +42,17 @@ var removeNthFromEnd = function(head, n) {
 
 
 var removeNthFromEnd = function(head, n) {
-    let prevHead = {next:head}
-    let fast = prevHead; slow = prevHead;
-    while(n--) {
+    let dummy = new LinkNode();
+    dummy.next = head
+    let fast = dummy,
+        slow = dummy
+    while (n--) fast = fast.next
+    while (fast && fast.next) {
         fast = fast.next;
+        slow = slow.next
     }
-    while(fast && fast.next) {
-        fast = fast.next;
-        slow = slow.next;
-    }
-    slow.next = slow.next.next
-    return prevHead.next
+    slow.next = slow.next.next;
+    return dummy.next
 };
 
 

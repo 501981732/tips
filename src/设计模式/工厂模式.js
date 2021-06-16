@@ -19,7 +19,6 @@ class Factory() {
 Factory.create('wm').say()
 
 
-
 // vue中创建异步组件
 // 我们可以看到我们只需要调用 createComponent 传入参数就能创建一个组件实例，但是创建这个实例是很复杂的一个过程，工厂帮助我们隐藏了这个复杂的过程，只需要一句代码调用就能实现功能。
 function createComponent (

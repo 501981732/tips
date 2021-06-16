@@ -23,3 +23,21 @@ var isValid = function(s) {
     }
     return !stack.length
 };
+var isValid = function(s) {
+    const map = {
+        '(': ')',
+        '[': ']',
+        '{': '}'
+    }
+    let stack = []
+    for (let i of s) {
+        // if (map.hasOwnProperty(k))
+        if (i in map) {
+            stack.push(i)
+        } else {
+            let pop = stack.pop()
+            if (map[i] !== pop)  return false
+        }
+    }
+    return !stack.length
+};

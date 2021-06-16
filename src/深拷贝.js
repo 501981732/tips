@@ -55,14 +55,13 @@ function deepClone(obj,map = new WeakMap()){
 
 // 深拷贝
 
-function deepCopy2(obj) {
-
-    if(typeof val !=='object' || val === null ) return val;
-
-    let target = Array.isArray(obj) ? [...obj] : { ...obj }
-
-    Reflect.ownKeys(obj).forEach(key => {
-        target[key] = isObject(target[key]) ? deepCopy2(target[key]) : target[key]
-    })
-    return target;
+function deepCopy(obj,map=new WeakMap()) {
+  if (typeof obj === null || typeof obj !== 'object') return obj;
+  if (map.has(obj)) return map.get(obj);
+  let clone = Array.isArray(obj) ? [] : {}
+  Reflect.ownKeys(obj).forEach(item =>{
+    clone[item] = deepClone(obj[item],map)
+  })
+  map.set(obj,clone);
+  return clone
 }

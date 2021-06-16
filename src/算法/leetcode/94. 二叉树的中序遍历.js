@@ -20,7 +20,7 @@ function inorderTraversal(root) {
         stack.push(root)
         root = root.left
     }
-    while(stack || stack.left) {
+    while(stack.length) {
         let node = stack.pop()
         res.push(node.val)
         node = node.right

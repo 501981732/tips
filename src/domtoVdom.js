@@ -69,3 +69,6 @@ function parseNode(vnode) {
     }
     return node
 }
+
+
+// dom 转vnode

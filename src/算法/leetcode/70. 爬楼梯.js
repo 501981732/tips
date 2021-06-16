@@ -57,7 +57,7 @@ var climbStairs = (n) => {
 // 每次只能走一步或者两步，但是不能连续走两步
 // 用户连续走两步，下次就只能走一步，假如走了一步，下次就能走1步或者两步
 
-function climbStairs(n, status) {
+function climbStairs(n, status=0) {
     if (n < 0)
       return 0;
     if (n == 1)
@@ -71,12 +71,12 @@ function climbStairs(n, status) {
       }
     }
     if (n > 2) {		//当阶梯大于2的时候
-      if (status == 0) {		//状态为0的时候，就相当于是如图中的底层，分为两个方向相加f(n-1)和f(n-2)，但是需要将本次走的状态传递过去（需要使用递归，自己调用自己）
+      if (status == 0 || status == 1 ) {		//状态为0的时候，就相当于是如图中的底层，分为两个方向相加f(n-1)和f(n-2)，但是需要将本次走的状态传递过去（需要使用递归，自己调用自己）
         return climbStairs(n - 1, 1) + climbStairs(n - 2, 2)	
       }
-      if (status == 1) {			//状态为1的时候，就相当于是如图中的底层的左边部分，又是分为两个方向相加f(n-1)和f(n-2)，同样需要将本次次走的状态传递过去
-        return climbStairs(n - 1, 1) + climbStairs(n - 2, 2);
-      }
+      // if (status == 1) {			//状态为1的时候，就相当于是如图中的底层的左边部分，又是分为两个方向相加f(n-1)和f(n-2)，同样需要将本次次走的状态传递过去
+      //   return climbStairs(n - 1, 1) + climbStairs(n - 2, 2);
+      // }
       if (status == 2) {		//状态为2的时候，就相当于是如图中的底层的右边部分，这里就只能有一种的走法了，所以递归过去的值就只剩下了f(n-1)
         return climbStairs(n - 1, 1);
       }
@@ -119,3 +119,38 @@ int main() {
 }
 
 
+
+// function test(n) {
+//   if ( n <= 2) return n
+//   return test(n-1) + test(n-2)
+// }
+
+// function test(n) {
+//   let arr = new Array(n+1);
+//   arr[0] = 1
+//   arr[0] = 1
+//   for (let i = 2; i < n;i++) {
+//     arr[n] = arr[n-1] + arr[n-2]
+//   }
+//   return arr[n]
+// }
+
+// status: 0 1 2
+function test(n,status = 0) {
+  if (n < 0) return 0
+  if (n === 1) return 1
+  if (n === 2) {
+    if (status === 2) {
+      return 1
+    }
+    return 2
+  }
+  if (n > 2) {
+    if (status === 0 || status === 1) {
+      return test(n-1,1) + test(n-2,2)
+    }
+    if (status === 2) {
+      return test(n-1,1)
+    }
+  }
+}

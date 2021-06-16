@@ -26,6 +26,7 @@ var hasCycle = function(head) {
     }
     return true
 };
+
 // // hash表
 // var hasCycle = function(head) {
 //     let map = new Map();
@@ -37,3 +38,17 @@ var hasCycle = function(head) {
 //     }
 //     return false
 // };
+
+var hasCycle = function(head) {
+    if (!head || !head.next) return false
+    let fast = head.next.next
+    let slow = head.next
+    while (fast !== slow) {
+        if (fast === null || fast.next === null) {
+            return false
+        }
+        fast = fast.next.next
+        slow = slow.next
+    }
+    return true
+};

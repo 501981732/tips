@@ -18,3 +18,4 @@
 
     return Math.min(leftDep,rightDep) +1
 };
+
