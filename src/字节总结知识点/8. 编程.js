@@ -50,9 +50,61 @@ function add(a ,b){
   return sum;
 }
 
+// 大数相加
+// 拍平数组
+ary = arr.toString().split(',').map(Number)
+function flat(arr, num = 1) {
+  return num > 0
+    ? arr.reduce(
+        (pre, cur) =>
+          pre.concat(Array.isArray(cur) ? flat(cur, num - 1) : cur),
+        []
+      )
+    : arr.slice();
+}   
+function flat(arr,n) {
+  while(n--) {
+      arr = [].concat(...arr)
+  }
+  return arr
+}
 
-// 节流
+
+function throttle(fn) {
+  let timer = null
+  return function() {
+    if (timer) clearTimeout(timer)
+    timer = setTimeout(()=>{
+      fn.call(this,arguments)
+    })
+  }
+}
+// 节流： throttle 稀释执行效率  思路：每次触发前判断当前是否有等待执行的延时函数
+
+function throttle(fn,time) {
+    let canRun = true
+    return function() {
+        if (!canRun) return
+        canRun = false
+        let context = this
+        setTimeout(()=>{
+            fn.call(context,arguments)
+            canRun = true
+        },time)
+    }
+}
 // 防抖
+function debounce(fn,time) {
+  let timer = null
+  return function() {
+      let context = this
+      if (timer) clearTimeout(timer)
+      timer = setTimeout(function(){
+          fn.call(context,arguments)
+          timer = null
+      },time)
+  }
+}
 // 字符串反转
 // 去重
 // 实现千位分隔符

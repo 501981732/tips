@@ -254,6 +254,23 @@ function deepFlatten2(arr) {
         return pre.concat(Array.isArray(cur) ? deepFlatten2(cur) : cur)
     }, [])
 }
+
+function flat(arr, num = 1) {
+    return num > 0
+      ? arr.reduce(
+          (pre, cur) =>
+            pre.concat(Array.isArray(cur) ? flat(cur, num - 1) : cur),
+          []
+        )
+      : arr.slice();
+}   
+function flat(arr,n) {
+    while(n--) {
+        arr = [].concat(...arr)
+    }
+    return arr
+}
+ 
 function deepFlatten(arr) {
     while(arr.some(item => Array.isArray(item))) {
         arr = [].concat(...arr)
@@ -261,12 +278,7 @@ function deepFlatten(arr) {
     return arr
 }
 
-function deepFlatten(arr,n) {
-    while(n--) {
-        arr = [].concat(...arr)
-    }
-    return arr
-}
+
 
 
 function myInstance(l, r) {
@@ -989,26 +1001,16 @@ function passArr(arr) {
 
 
 
-    2. 已知有2个栈， 有pop， push， getSize接口， 请用这2个栈实现1个队列， 包含dequeue和enqueue接口。
+    // 2. 已知有2个栈， 有pop， push， getSize接口， 请用这2个栈实现1个队列， 包含dequeue和enqueue接口。
 
     class Stack {
         constructor() {
             this._stack = [];
         }
-
-<<<<<<< Updated upstream
-
-// 形参不定长
-function add (...args) {
-    return args.reduce((a, b) => a + b)
-}
-=======
         pop() {
             this._stack.pop();
             return this;
         }
->>>>>>> Stashed changes
-
         push(item) {
             this._stack.push(item);
             return this;
@@ -1019,17 +1021,9 @@ function add (...args) {
         }
     }
 
-<<<<<<< Updated upstream
-jsBridge原理：
-APP与h5通讯
 
-根据约定 将全局方法绑定到webview上的windows对象上，
-native通过webview回去window上的方法直接调用
 
-h5与native主动通讯：
-h5调用native注册到webview上window上的postMessage方法，
-native拦截postmessage发出的自定义协议，调用对应路由的callback
-=======
+
 class Queue {
     constructor() {
         this._stack1 = new Stack()
@@ -1053,4 +1047,13 @@ class Queue {
         }
     }
 }
->>>>>>> Stashed changes
+
+// jsBridge原理：
+// APP与h5通讯
+
+// 根据约定 将全局方法绑定到webview上的windows对象上，
+// native通过webview回去window上的方法直接调用
+
+// h5与native主动通讯：
+// h5调用native注册到webview上window上的postMessage方法，
+// native拦截postmessage发出的自定义协议，调用对应路由的callback

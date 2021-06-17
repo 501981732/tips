@@ -19,10 +19,10 @@
 
     function throttle(fn,time) {
         let canRun = true
-        return function() {
+        return function () {
             if (!canRun) return
             canRun = false
-            let context = this
+            let context = this;
             setTimeout(()=>{
                 fn.call(context,arguments)
                 canRun = true
