@@ -31,9 +31,9 @@ var levelOrder = function(root) {
  * @return {number[][]}
  */
 var levelOrder = function(root) {
-    const res = [], queue = [];
+    const res = [], queue = [root];
     let depth = 0, num = 0;
-    if (root) queue.push(root);
+    // if (root) queue.push(root);
     while (queue.length) {
         res.push([]);
         num = queue.length;
@@ -47,3 +47,29 @@ var levelOrder = function(root) {
     }
     return res;
 };
+
+
+var levelOrder = function(root) {
+    let res = []
+    function BFS(root,depth) {
+        if (!root) return
+        res[depth] = res[depth] || []
+        res[depth].push(root.val)
+        for (let child of root.children) {
+            BFS(child,depth+1)
+        }
+    }
+    BFS(root,0)
+    return res;
+};
+
+// var levelOrder = function(root) {
+//     let res = []
+//     let queue = [root];
+//     let depth = 0,len = 0;
+//     while (queue.length) {
+
+        
+//     }
+// };
+

@@ -27,4 +27,27 @@ var preorderTraversal = function(root) {
     return result;
   };
 
+//   var preorderTraversal = function(root) {
+//     if (!root) return [];
+//     var res = [];
+//     var stack = [root];
+//     while (stack.left) {
+//         let node = stack.pop()
+//         res.push(node.val)
+//         if (node.right) stack.push(node.right)
+//         if (node.left) stack.push(node.left)
+//     }
+//     return res
+//   };
+
   
+//   function preorderTraversal(root) {
+//       let res = []
+//       ~function preorder(root) {
+//           if (!root) return 
+//           res.push(root.val)
+//           preorder(root.left)
+//           preorder(root.right)
+//       }(root)
+//       return res
+//   }

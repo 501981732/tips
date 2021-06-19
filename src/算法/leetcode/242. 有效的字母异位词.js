@@ -10,7 +10,7 @@ var isAnagram = function(s, t) {
 var isAnagram = function(s, t) {
     let map = {}
     if (s.length !== t.length) return false
-    for (let i = 0,len = s.length; i < length; i++) {
+    for (let i = 0,len = s.length; i < len; i++) {
         map[s[i]] = map[s[i]] ? map[s[i]] + 1 : 1
         map[t[i]] = map[t[i]] ? map[s[i]] - 1 : -1
     }

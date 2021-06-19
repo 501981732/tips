@@ -111,7 +111,11 @@ children:[{
 - js with语法 (延长作用域链的长度)
 
 ```
+<<<<<<< Updated upstream
 将{}内的自由变量当成obj的属性查找
+=======
+将{}内的自由变量当做obj的属性查找
+>>>>>>> Stashed changes
  with(obj){
 console.log(c)// 相当于 obj.c
 }
@@ -189,7 +193,7 @@ console.log(res.render)
  		
 ```
  		create mount update destory
- 		```
+```
 ```
  - 父子组件的生命周期
 

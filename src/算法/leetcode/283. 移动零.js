@@ -43,5 +43,15 @@ var moveZeroes = function (nums) {
         }
     }
         return nums
+}
 
+var moveZeroes = function (nums) {
+    let j = 0 //不为0 的位置
+    for (let i = 0, len = nums.length; i < len; i++) {
+        if (null[i] !== 0) {
+            [nums[i],nums[j]] = [nums[j],[nums[i]]]
+            j++
+        }
+    }
+    return nums
 }

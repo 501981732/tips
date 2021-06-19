@@ -133,6 +133,7 @@
 	- 使用场景： 公共信息（语言 主题）传递给每个组件
 	- props太繁琐 redux太小题大做
 - **非受控组件**(input的值不受state控制)
+	
 	- 使用场景：必须手动操作DOM，setState实现不了 文件上传，富文本编辑器
 	- `ref`
 	- `defalutValue defaultChecked`
@@ -214,7 +215,7 @@
 		}
 		```
 	- **RenderProps**
-		- 通过一个函数（render或者children）将state最为props传递给子组件 
+		- 通过一个函数（render或者children）将state做为props传递给子组件 
 		- props render模式实现登录逻辑复用功能
 	
 	### Redux
@@ -272,7 +273,7 @@
 			}
 		```
 
-### redux-router
+### react-router
 
 - hash history
 - 路由配置 动态路由 懒加载

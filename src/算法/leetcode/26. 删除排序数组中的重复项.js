@@ -22,7 +22,6 @@ var removeDuplicates = function(nums) {
     return left +1
 };
 
-<<<<<<< Updated upstream
 var removeDuplicates = function(nums) {
     let k = 0// 不重复的值
     for (let i = 0, len = nums.length; i < len; i++) {
@@ -47,7 +46,7 @@ function removeDuplicates(nums) {
         }
         return left+1
 }
-=======
+
 // var removeDuplicates = function(nums) {
 //     let k = 0// 不重复的值
 //     for (let i = 0, len = nums.length; i < len; i++) {
@@ -57,4 +56,3 @@ function removeDuplicates(nums) {
 //     }
 //     return k + 1
 // };
->>>>>>> Stashed changes

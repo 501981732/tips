@@ -123,7 +123,7 @@ output:{
 	- 从js中抽离
 	- dev `style-loader`  `css-loader` `postcss-loader`
 
-	- prod  `mini-css-extract-plugin` `css-loader` `less-loader` `postcss-loader`
+	- prod  `mini-css-extract-plugin` `css-loader`  `postcss-loader` `less-loader` 
 	- 在plugins 抽离css
 	```
 		extract-text-webpack-plugin

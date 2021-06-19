@@ -20,10 +20,3 @@ function invertTree(root) {
     root.right = left
     return root
 }
-
-function invertTree(root) {
-    if (!root) return root;
-    root.left = invertTree(root.left);
-    root.right = invertTree(root.right)
-    return root
-}

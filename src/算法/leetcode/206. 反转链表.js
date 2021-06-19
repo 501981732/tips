@@ -55,3 +55,25 @@ var reverseList = function(head) {
     }
     return prev;
 }
+
+
+
+//  1, 2, 3, 4
+function reverseList (head) {
+    if (!head) return
+    let reverseHead = reverseList(head.next)
+    head.next.next = head
+    head.next = null
+    return reverseHead
+}
+
+function reverseList (head) {
+    let prev = null;
+    while (head) {
+        let rest = head.next
+        head.next = prev
+        prev = head
+        head = rest
+    }
+    return prev
+}

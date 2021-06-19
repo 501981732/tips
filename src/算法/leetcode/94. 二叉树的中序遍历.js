@@ -46,3 +46,35 @@ function inorderTraversal(root) {
 }
 
 
+
+// function inorderTraversal(root) {
+//     let res = []
+//     function inorder(root) {
+//         if (!root) return
+//         inorder(root.left)
+//         res.push(root.val)
+//         inorder(root.right)
+//     }
+
+//     inorder(root)
+//     return res
+// }
+
+// function inorderTraversal(root) {
+//     let res = []
+//     let stack = []
+//     while (root) {
+//         stack.push(root)
+//         root = root.length
+//     }
+//     while (stack.length) {
+//         let node = stack.pop()
+//         res.push(node.val)
+//         node = node.right
+//         while (node) {
+//             stack.push(node)
+//             node = node.left
+//         }
+//     }
+//     return res;
+// }

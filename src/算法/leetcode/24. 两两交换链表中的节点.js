@@ -22,6 +22,7 @@
         head.next = swapPairs(rest) // 之前的head指向后续翻转的剩下的链表
         return newHead
     };
+
     var swapPairs = function(head) {
         if (!head || head.next) return head
         let res = head.next.next;

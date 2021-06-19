@@ -21,6 +21,7 @@ var deleteDuplicates = function(head) {
     return head
 };
 
+
 var deleteDuplicates = function(head) {
     let current = head
     while (current && current.next) {
