@@ -107,7 +107,7 @@ function superType(name) {
 }
 
 superType.prototype.sayName = function() {}
-
+// 、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、、
 function SubType(name, age) {
     superType.call(this,name)
     this.age = age
@@ -132,7 +132,7 @@ function inherit(SubType,superType) {
         configurable: true 
       }
     })
-        SubType.prototype = prototype
+    SubType.prototype = prototype
 }
 
 // 最理想的继承方式

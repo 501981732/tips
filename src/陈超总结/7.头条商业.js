@@ -52,3 +52,26 @@ js数组和其他的不一样，不是连续相同类型
 是固定寻址方式
 
 代码质量要求非常高,如何保证 eslint prettier 为了大家格式统一，统一在项目中建 .vscode文件 保证格式统一， gitcommit 自动lint husky  lint-staged
+
+// let min = 0,max = 0
+// for (let i = 0; i < nums.length;i++) {
+//     if (nums[i] < min)  min = i
+//     if (nums[i] > min)  max = i
+// }
+// if (min < max) {
+//     return nums[max] - muns[min]
+// } else {
+//     return 0
+// }
+
+function curry(fn) {
+    let args = []
+    return function curring() {
+        let newArgs = [...args,...arguments]
+        if (fn.length === newArgs) {
+            fn.apply(this,newArgs)
+        } else {
+            return curring
+        }
+    }
+}

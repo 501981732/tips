@@ -51,25 +51,33 @@ var levelOrder = function(root) {
 
 var levelOrder = function(root) {
     let res = []
-    function BFS(root,depth) {
+    function DFS(root,depth) {
         if (!root) return
         res[depth] = res[depth] || []
         res[depth].push(root.val)
         for (let child of root.children) {
-            BFS(child,depth+1)
+            DFS(child,depth+1)
         }
     }
-    BFS(root,0)
+    DFS(root,0)
     return res;
 };
 
-// var levelOrder = function(root) {
-//     let res = []
-//     let queue = [root];
-//     let depth = 0,len = 0;
-//     while (queue.length) {
 
-        
-//     }
-// };
-
+var levelOrder = function(root) {
+    let res = [],
+        depth = 0,
+        queue = [root];
+    while (queue.length) {
+        res[depth] = res[depth] || []
+        let num = queue.length
+        for (let i = 0; i < num; i++) {
+            const curr = queue.shift()
+            if (curr) {
+                res[depth].push(curr.val)
+                queue.push(...curr.children)
+            }
+        }
+        depth++
+    }
+}

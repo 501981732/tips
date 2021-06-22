@@ -86,7 +86,7 @@ console.log(p2) // -> ?
 null 和 number 存在的一些问题 
 垃圾回收的角度分析两种类型
 null是个bug null 
-typeof(null) // "object"
+typeof null // "object"
 null instanceof Object // false
 
 ### 继承
@@ -141,7 +141,7 @@ Node 的 Event Loop 分为 6 个阶段，它们会按照顺序反复运行。每
 
 #### 跨域
 同域名 协议 端口号 跨域为了方式SCRF
-- jsonp 兼容性不错 但是只限于 get 请求。 
+- jsonp 兼容性不错 但是只限于 get 请求 安全性问题 错误没有状态码等。 
 - CORS 需要浏览器和后端同时支持。IE 8 和 9 需要通过 XDomainRequest 来实现。
   - 服务端设置Access-Control-Allow-Origin可以开启CORS 通过这中设置会在请求时有两种情况
     - 简单请求

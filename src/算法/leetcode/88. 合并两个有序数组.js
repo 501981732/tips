@@ -10,27 +10,27 @@
  // 时间复杂度：O(m+n)。
  // 空间复杂度：O(m+n)。
 
-var merge = function(nums1, m, nums2, n) { 
-	let sorted = []
-	let curr;
-	let i = 0,j = 0
-	while (i < m || j < n) {
-		if (i === m) {
-			curr = nums2[j++]
-		} else if ( j === n) {
-			curr = nums1[i++]			
-		} else if ( nums1[i] < nums2[j]) {
-			curr = nums1[i++]
-		} else {
-			curr = nums2[j++]
-		}
-		sorted[i + j - 1] = curr
-	}
-    for (let i = 0; i < m + n; i++) {
-        nums1[i] = sorted[i];
-    }
-	return nums1
-}
+// var merge = function(nums1, m, nums2, n) { 
+// 	let sorted = []
+// 	let curr;
+// 	let i = 0,j = 0
+// 	while (i < m || j < n) {
+// 		if (i === m) {
+// 			curr = nums2[j++]
+// 		} else if ( j === n) {
+// 			curr = nums1[i++]			
+// 		} else if ( nums1[i] < nums2[j]) {
+// 			curr = nums1[i++]
+// 		} else {
+// 			curr = nums2[j++]
+// 		}
+// 		sorted[i + j - 1] = curr
+// 	}
+//     for (let i = 0; i < m + n; i++) {
+//         nums1[i] = sorted[i];
+//     }
+// 	return nums1
+// }
 
 var merge = function(nums1, nums2) { 
 	let newArr = [],
@@ -55,7 +55,7 @@ var merge = function(nums1, nums2) {
 	for (let i = 0,len = newArr.length; i < len; i++) {
 		nums1[i] = newArr[i]
 	}
-	return nums2
+	return nums1
 }
 
 

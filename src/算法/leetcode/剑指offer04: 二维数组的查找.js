@@ -24,16 +24,18 @@ var findNumberIn2DArray = function(matrix, target) {
 
 // 右下角建立坐标
 function findNumberIn2DArray(matrix,target) {
-    // matrix[i][j]
-    if (!matrix.length) return false
-   let i = matrix.length - 1, j = 0
-   while (i > 0 && j < matrix[0].length) {
-       if (matrix[i][j] === target) return true
-       if (matrix[i][j] > target) {
-           i--
-       } else {
-           j++
-       }
-   }
-   return false
+    // matrix[x][y]
+    if (!matrix.length) return false;
+    let x = matrix.length,
+        y = 0;
+        while ( x > 0 && y < matrix[0].length) {
+            if (matrix[x][y] === target) {
+                return true
+            } if (matrix[x][y] < target) {
+                y++
+            } else {
+                x--
+            }
+        }
+        return false
 }

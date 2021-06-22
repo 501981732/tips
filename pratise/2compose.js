@@ -65,24 +65,6 @@ app.use(async function(ctx,next) {
 })
 
 
-function compose(middlewareList) {
-    return function (ctx) {
-        function dispatch(i) {
-            const fn = middlewareList[i]
-            try {
-
-            } catch (e) {
-                return Promise.reject(e)
-            }
-        }
-
-        dispatch(0)
-    }
-
-}
-
-
-
 
 function compose(fns) {
     return function(arg) {

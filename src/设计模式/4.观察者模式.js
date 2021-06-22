@@ -374,8 +374,6 @@ var Event = (function () {
 
 
 
-<<<<<<< Updated upstream
-
 
 // ---------------------------------------------
 let Event = (function () {
@@ -436,7 +434,7 @@ let Event = (function () {
         once,
     }
 })()
-=======
+
 // -----------------------
 
 Event.trigger('click',111)
@@ -526,7 +524,7 @@ const Event = (function(){
         once = function(key,fn) {
             let only = function(){
                 fn.call(this,arguments)
-                remove(only)
+                remove(key)
             }
             listen(key,only)
         }
@@ -543,4 +541,3 @@ Event.listen('click',function(){
 
 })
 Event.trigger('click','x')
->>>>>>> Stashed changes

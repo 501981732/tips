@@ -112,6 +112,7 @@ function myNew(fn, ...args) {
     return o;
 }
 
+
 function _new(fn, ...args) {
     const obj = Object.create(fn.prototype);
     const result = fn.apply(obj, args);
@@ -302,20 +303,16 @@ function myInstance(l, r) {
 
 
 
-
-
-function copy(dist) {
-    function isObject(o) {
-        return typeof o === 'object'
-    }
-    let target = Array.isArray(dist) ? [...dist] : {
-        ...dist
-    }
-    Reflect.ownKeys(target).forEach(item => {
-        target[item] = isObject(target(item)) ? copy(target[item]) : target[key]
+function deepClone(obj,map = new WeakMap()) {
+    if (typeof obj !== 'object' || obj === null) return obj
+    if (map.has(obj)) return map.get(obj)
+    let clone = Array.isArray(obj) ? [] : {}
+    Reflect.ownKeys(obj).forEach(item =>{
+        clone[item] = deepClone(obj[item],map)
     })
+    map.set(obj,clone)
+    return clone
 }
-
 
 // 82 移动0
 // 给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。
@@ -630,49 +627,71 @@ function reverse(arr) {
 }
 
 // 有效的括号
-
-function isValidate(str) {
-    let map = {
-        "{": "}",
-        "[": ']',
-        "(": ')'
+var isValid = function(s) {
+    const map = {
+        '(': ')',
+        '[': ']',
+        '{': '}'
     }
     let stack = []
-    for (let k of str) {
-        if (k in map) {
-            stack.push(i);
+    for (let i of s) {
+        // if (map.hasOwnProperty(k))
+        if (i in map) {
+            stack.push(i)
         } else {
-            // 如果遇到右括号，和栈顶的匹配
-            //             如果相等则 出栈 ，不等 则返回false (当然也出栈，不过无所谓了)
-            if (k !== map[stack.pop()]) {
-                return false;
-            }
+            let pop = stack.pop()
+            if (map[i] !== pop)  return false
         }
     }
     return !stack.length
-}
+};
 
 
 
 
 // 合并2个有序数组
 
-function merge(a, b) {
-    let i = j = 0;
-    let newArr = []
-    if (a.length === 0) return b
-    if (b.length === 0) return a
+// function merge(a, b) {
+//     let i = j = 0;
+//     let newArr = []
+//     if (a.length === 0) return b
+//     if (b.length === 0) return a
 
-    while (a[i] !== undefined || b[j] !== undefined) {
-        if ((a[i] !== undefined && b[j] === undefined) || a[i] < b[j]) {
-            newArr.push(a[i])
-            i++
-        } else {
-            newArr.push(b[j])
-            j++
-        }
-    }
-    return newArr
+//     while (a[i] !== undefined || b[j] !== undefined) {
+//         if ((a[i] !== undefined && b[j] === undefined) || a[i] < b[j]) {
+//             newArr.push(a[i])
+//             i++
+//         } else {
+//             newArr.push(b[j])
+//             j++
+//         }
+//     }
+//     return newArr
+// }
+var merge = function(nums1, nums2) { 
+	let newArr = [],
+		i = 0,
+		j = 0,
+		m = nums1.length;
+		n = nums2.length;
+	
+	while (i < m && j < n) {
+		if (nums1[i] <= nums2[j]) {
+			newArr.push(nums1[i++])
+		} else {
+			newArr.push(nums2[j++])
+		}
+	}
+	while (i < m) {
+		newArr.push(nums1[i++])
+	} 
+	while ( j < n) {
+		newArr.push(nums2[j++])
+	}
+	for (let i = 0,len = newArr.length; i < len; i++) {
+		nums1[i] = newArr[i]
+	}
+	return nums1
 }
 
 //反转字符串
@@ -703,7 +722,7 @@ function compose(...fns) {
         }, x)
     }
 
-    return fns.reduce((prev, curr) => (...args) => prev(curr(...args)))
+    // return fns.reduce((prev, curr) => (...args) => prev(curr(...args)))
     
 }
 // function compose(...fns) {

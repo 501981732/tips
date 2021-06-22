@@ -20,7 +20,6 @@ function definedReactive(obj,key,val) {
     let dep = new Dep()
     observe(obj)
     Object.defineProperty(obj,key,{
-
         get(){
                  if (Dep.target) {
                      // 依赖收集

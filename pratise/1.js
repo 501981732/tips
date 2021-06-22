@@ -3,7 +3,7 @@ function myCall(context = window) {
         throw new Error('error')
     }
     context.fn = this
-    const args = [...arguments].slice(0);
+    const args = [...arguments].slice(1);
     const result = context.fn(...args)
     delete context.fn
     return result
@@ -357,7 +357,7 @@ function bind(context) {
 // 链接到原型
 // 绑定 this  执行
 // 返回新对象
-function new () {
+function mynew () {
     let o = {}
     let constructor = [].prototype.shift.call(arguments);
     o.__proto__ = constructor.prototype
@@ -367,7 +367,7 @@ function new () {
 
 
 // 过判断对象的原型链中是不是能找到类型的 prototype
-function instanceof(l,r) {
+function myInstanceof(l,r) {
     let prototype = r.prototype; 
     let left = l.__proto__
     while(true) {
@@ -397,20 +397,6 @@ function dfs(node,map) {
 }
 let s = {}
 dfs(document.body,s);//仅body标签内的元素
-
-
-function dfs(node,map) {
-    if (node.nodeType === 1) {
-        let tagName = node.tagName;
-         map[tagName] = map.hasOwnProperty(tagName) ? map[tagName]++ : 1
-         let children = node.childNodes
-         if (children) {
-             for (let i=0.len=children.length;i++) {
-                 dfs(children[i],map)
-             }
-         }
-    }
-}
 
 
 

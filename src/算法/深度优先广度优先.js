@@ -97,3 +97,18 @@ let BFS = (node) => {
     }
   return res
 }
+
+
+// ---------------------------
+function DFS(node,map={}) {
+  if (node.nodeType === 1) {
+      var tagName = node.tagName
+      map[tagName] =  map[tagName] ?  map[tagName] + 1 : 1
+      let children = node.children;
+      for (let i = 0,len = children.length; i < len; i++) {
+          DFS(children[i],map)
+      }
+  }
+  return map
+}
+DFS(document.body);

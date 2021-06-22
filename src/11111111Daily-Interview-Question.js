@@ -116,7 +116,7 @@ function flat(arr) {
 14 new
 
 function _new(fn,...args) {
-    let obj = Object.create(fn.prototype)
+    // let obj = Object.create(fn.prototype)
     let obj = {}
     obj.__proto__ = fn.prototype
     let result = fn.apply(obj, args)
@@ -314,30 +314,55 @@ view到model是开发者通过v-model添加的。如果一个组件有多个 v-m
 30 合并2个有序数组
  请把俩个数组 [A1, A2, B1, B2, C1, C2, D1, D2] 和 [A, B, C, D]，合并为 [A1, A2, A, B1, B2, B, C1, C2, C, D1, D2, D]
 
- function sort(arr1,arr2) {
-     let len1 = arr1.length,
-         len2 = arr2.length,
-         i = 0,
-         j = 0,
-         sorted = [],
-         curr
-         while(i <= len1 || j <= len2) {
-             if (i === len1) {
-                curr = arr2[j++]
-             } else if (j === len2) {
-                 curr = arr1[i++]
-             } else if (arr1[i] < arr2[j]) {
-                curr = arr1[i++]
-             } else {
-                curr = arr2[j++]
-             }
-             sorted[i+j-1] = curr
-         }
-         for (let i = 0,len = len1 + len2; i < len; i ++) {
-             num1[i] = sorted[i]
-         }
-         return num1[i]
- }
+//  function sort(arr1,arr2) {
+//      let len1 = arr1.length,
+//          len2 = arr2.length,
+//          i = 0,
+//          j = 0,
+//          sorted = [],
+//          curr
+//          while(i <= len1 || j <= len2) {
+//              if (i === len1) {
+//                 curr = arr2[j++]
+//              } else if (j === len2) {
+//                  curr = arr1[i++]
+//              } else if (arr1[i] < arr2[j]) {
+//                 curr = arr1[i++]
+//              } else {
+//                 curr = arr2[j++]
+//              }
+//              sorted[i+j-1] = curr
+//          }
+//          for (let i = 0,len = len1 + len2; i < len; i ++) {
+//              arr1[i] = sorted[i]
+//          }
+//          return arr1[i]
+//  }
+var merge = function(nums1, nums2) { 
+	let newArr = [],
+		i = 0,
+		j = 0,
+		m = nums1.length;
+		n = nums2.length;
+	
+	while (i < m && j < n) {
+		if (nums1[i] <= nums2[j]) {
+			newArr.push(nums1[i++])
+		} else {
+			newArr.push(nums2[j++])
+		}
+	}
+	while (i < m) {
+		newArr.push(nums1[i++])
+	} 
+	while ( j < n) {
+		newArr.push(nums2[j++])
+	}
+	for (let i = 0,len = newArr.length; i < len; i++) {
+		nums1[i] = newArr[i]
+	}
+	return nums1
+}
 
  function sort(arr1,arr2) {
     let m = arr1.length,

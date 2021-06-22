@@ -99,14 +99,20 @@ let c = foo(0).foo(1); c.foo(2);c.foo(3) undefined 0 1 1
 
 // 快手
 // 1
-Function.prototype.a = () => alert(1);
-Object.prototype.b = () => alert(2);
-function A() {}
-const a = new A();
-a.a();
-a.b();
-A.a();
-A.b();
+Function.prototype.a = () => console.log('1');
+Object.prototype.b = () => console.log('2')
+function Test() {}
+const test = new Test();
+test.a();
+test.b();
+Test.a();
+Test.b();
+
+a. a b a b 
+b. 'TypeError: a.a is not a function' b a b
+c. a b  'TypeError: A.a is not a function' b
+c. a b  a  'TypeError: A.b is not a function'
+
 // 2
 let a;
 const b = new Promise((resolve, reject) => {
@@ -151,3 +157,30 @@ this.next = null; // new LinkNode
 
 
 
+
+
+let a = 0
+let b = async () => {
+  a = a + await 10
+  console.log('2', a) // -> '2' 10
+}
+b()
+a++
+console.log('1', a) // -> '1' 1
+
+function test(person) {
+    person.age = 26
+    person = {
+      name: 'yyy',
+      age: 30
+    }
+    return person
+  }
+  
+  const p1 = {
+    name: 'yck',
+    age: 25
+  }
+  const p2 = test(p1)
+  console.log(p1) // -> ?
+  console.log(p2) // -> ?
